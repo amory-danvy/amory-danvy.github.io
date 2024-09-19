@@ -1,65 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon CV - Prénom Nom</title>
+    <title>Mon CV</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <header>
-        <div class="container">
-            <h1>Prénom Nom</h1>
-            <p>Développeur Web | Spécialité</p>
-            <button id="theme-toggle">Changer de Thème</button>
-        </div>
-    </header>
-
-    <main>
-        <section class="profile" id="profile">
-            <h2>Profil</h2>
-            <p>Passionné de développement web avec une expérience dans la création de sites interactifs...</p>
-        </section>
-
-        <section class="experience" id="experience">
-            <h2>Expérience professionnelle</h2>
-            <div class="job">
-                <h3>Développeur Front-End</h3>
-                <p>Entreprise XYZ, Janvier 2022 - Présent</p>
+    <div class="cv-container">
+        <header class="header">
+            <div class="profile-photo">
+                <img src="img/photo.jpg" alt="Ma photo">
+            </div>
+            <div class="profile-info">
+                <h1>Votre Nom</h1>
+                <p>Développeur Web | Designer UI/UX</p>
+            </div>
+        </header>
+        <main class="content">
+            <section class="about">
+                <h2>À propos de moi</h2>
+                <p>Je suis un développeur passionné avec une expérience en création de sites web modernes et réactifs...</p>
+            </section>
+            <section class="experience">
+                <h2>Expérience</h2>
                 <ul>
-                    <li>Développement d'interfaces utilisateur avec React.js</li>
-                    <li>Collaboration avec l'équipe de conception pour améliorer l'UX</li>
+                    <li>
+                        <h3>Développeur Front-End</h3>
+                        <span>Entreprise XYZ | 2020 - Présent</span>
+                        <p>Développement de solutions web innovantes...</p>
+                    </li>
+                    <!-- Ajoutez plus d'expérience ici -->
                 </ul>
-            </div>
-        </section>
-
-        <section class="education" id="education">
-            <h2>Formation</h2>
-            <div class="school">
-                <h3>Licence en Informatique</h3>
-                <p>Université ABC, 2018 - 2021</p>
-            </div>
-        </section>
-
-        <section class="skills" id="skills">
-            <h2>Compétences</h2>
-            <ul>
-                <li>HTML, CSS, JavaScript</li>
-                <li>React, Angular</li>
-                <li>Git, GitHub</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>Contact : <a href="mailto:email@example.com">email@example.com</a> | Téléphone : 0123456789</p>
-        <p>&copy; 2024 Prénom Nom</p>
-    </footer>
-
+            </section>
+            <section class="skills">
+                <h2>Compétences</h2>
+                <ul>
+                    <li>HTML / CSS / JavaScript</li>
+                    <li>React / Vue.js</li>
+                    <li>Design UI/UX</li>
+                    <!-- Ajoutez plus de compétences ici -->
+                </ul>
+            </section>
+            <section class="education">
+                <h2>Éducation</h2>
+                <ul>
+                    <li>
+                        <h3>Licence Informatique</h3>
+                        <span>Université ABC | 2017 - 2020</span>
+                    </li>
+                    <!-- Ajoutez plus d'éducation ici -->
+                </ul>
+            </section>
+        </main>
+    </div>
     <script src="script.js"></script>
 </body>
-
 </html>
