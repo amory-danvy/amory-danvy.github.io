@@ -1,61 +1,59 @@
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
     background-color: #f4f4f4;
+    color: #333;
 }
 
 header {
-    background-color: #333;
+    background: #333;
     color: #fff;
     padding: 20px 0;
     text-align: center;
 }
 
-.profile img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-}
-
-h1 {
+header h1 {
     margin: 0;
+    font-size: 2.5rem;
 }
 
-.contact, .about, .experience, .education, .skills {
-    background: #fff;
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+section {
+    margin: 20px 0;
     padding: 20px;
-    margin: 20px;
+    background: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-    color: #333;
     border-bottom: 2px solid #333;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     margin-bottom: 10px;
 }
 
 ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
 }
 
 li {
-    margin-bottom: 10px;
-}
-
-.job, .education-item {
-    margin-bottom: 20px;
+    background: #e2e2e2;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #333;
+    background: #333;
     color: #fff;
 }
