@@ -11,7 +11,9 @@
     <div class="cv-container">
         <header class="header">
             <div class="profile-photo">
-                <img src="img/photo.jpg" alt="Ma photo">
+                <img id="profile-pic" src="img/photo.jpg" alt="Ma photo">
+                <input type="file" id="upload-photo" accept="image/*" style="display: none;">
+                <button id="change-photo">Changer de photo</button>
             </div>
             <div class="profile-info">
                 <h1>Votre Nom</h1>
@@ -31,7 +33,6 @@
                         <span>Entreprise XYZ | 2020 - Présent</span>
                         <p>Développement de solutions web innovantes...</p>
                     </li>
-                    <!-- Ajoutez plus d'expérience ici -->
                 </ul>
             </section>
             <section class="skills">
@@ -40,7 +41,6 @@
                     <li>HTML / CSS / JavaScript</li>
                     <li>React / Vue.js</li>
                     <li>Design UI/UX</li>
-                    <!-- Ajoutez plus de compétences ici -->
                 </ul>
             </section>
             <section class="education">
@@ -50,7 +50,6 @@
                         <h3>Licence Informatique</h3>
                         <span>Université ABC | 2017 - 2020</span>
                     </li>
-                    <!-- Ajoutez plus d'éducation ici -->
                 </ul>
             </section>
         </main>
