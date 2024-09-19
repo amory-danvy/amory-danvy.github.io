@@ -1,22 +1,31 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const changePhotoButton = document.getElementById("change-photo");
-    const uploadPhotoInput = document.getElementById("upload-photo");
-    const profilePic = document.getElementById("profile-pic");
+// Script to add smooth scrolling effect and highlight active sections
+document.addEventListener('DOMContentLoaded', function () {
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('nav ul li a');
 
-    // Ouvre la fenêtre de sélection de fichier quand on clique sur "Changer de photo"
-    changePhotoButton.addEventListener("click", () => {
-        uploadPhotoInput.click();
-    });
+    // Add 'active' class when section is in view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const link = document.querySelector(`nav ul li a[href="#${entry.target.id}"]`);
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                link.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+                link.classList.remove('active');
+            }
+        });
+    }, { threshold: 0.3 });
 
-    // Change l'image de profil après le téléchargement
-    uploadPhotoInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                profilePic.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
+    sections.forEach(section => observer.observe(section));
+
+    // Smooth scroll for navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector(link.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
     });
 });
