@@ -1,59 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon CV</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="cv-container">
-        <header class="header">
-            <div class="profile-photo">
-                <img id="profile-pic" src="img/photo.jpg" alt="Ma photo">
-                <input type="file" id="upload-photo" accept="image/*" style="display: none;">
-                <button id="change-photo">Changer de photo</button>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#experience">Expérience</a></li>
+                <li><a href="#competences">Compétences</a></li>
+                <li><a href="#education">Éducation</a></li>
+                <li><a href="#projets">Projets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="accueil" class="section">
+        <h1>Bienvenue sur mon CV</h1>
+        <p>Développeur Web passionné par la création de solutions innovantes.</p>
+    </section>
+
+    <section id="experience" class="section">
+        <h2>Expérience Professionnelle</h2>
+        <div class="content">
+            <div class="item">
+                <h3>Développeur Front-end</h3>
+                <p>Entreprise XYZ - 2021 à présent</p>
+                <p>Développement d'applications web modernes avec React et Angular.</p>
             </div>
-            <div class="profile-info">
-                <h1>Votre Nom</h1>
-                <p>Développeur Web | Designer UI/UX</p>
+            <div class="item">
+                <h3>Développeur Back-end</h3>
+                <p>Entreprise ABC - 2019 à 2021</p>
+                <p>Création d'API RESTful et gestion de bases de données.</p>
             </div>
-        </header>
-        <main class="content">
-            <section class="about">
-                <h2>À propos de moi</h2>
-                <p>Je suis un développeur passionné avec une expérience en création de sites web modernes et réactifs...</p>
-            </section>
-            <section class="experience">
-                <h2>Expérience</h2>
-                <ul>
-                    <li>
-                        <h3>Développeur Front-End</h3>
-                        <span>Entreprise XYZ | 2020 - Présent</span>
-                        <p>Développement de solutions web innovantes...</p>
-                    </li>
-                </ul>
-            </section>
-            <section class="skills">
-                <h2>Compétences</h2>
-                <ul>
-                    <li>HTML / CSS / JavaScript</li>
-                    <li>React / Vue.js</li>
-                    <li>Design UI/UX</li>
-                </ul>
-            </section>
-            <section class="education">
-                <h2>Éducation</h2>
-                <ul>
-                    <li>
-                        <h3>Licence Informatique</h3>
-                        <span>Université ABC | 2017 - 2020</span>
-                    </li>
-                </ul>
-            </section>
-        </main>
-    </div>
+        </div>
+    </section>
+
+    <section id="competences" class="section">
+        <h2>Compétences</h2>
+        <div class="content">
+            <div class="skill">HTML / CSS</div>
+            <div class="skill">JavaScript / TypeScript</div>
+            <div class="skill">React / Angular</div>
+            <div class="skill">Node.js / Express</div>
+            <div class="skill">SQL / MongoDB</div>
+        </div>
+    </section>
+
+    <section id="education" class="section">
+        <h2>Éducation</h2>
+        <div class="content">
+            <div class="item">
+                <h3>Master en Informatique</h3>
+                <p>Université de Paris - 2017 à 2019</p>
+            </div>
+            <div class="item">
+                <h3>Licence en Informatique</h3>
+                <p>Université de Lyon - 2014 à 2017</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projets" class="section">
+        <h2>Projets</h2>
+        <div class="content">
+            <div class="item">
+                <h3>Portfolio Personnel</h3>
+                <p>Site web pour présenter mes projets et compétences.</p>
+            </div>
+            <div class="item">
+                <h3>Application de Gestion de Tâches</h3>
+                <p>Une application pour organiser les tâches et les projets en équipe.</p>
+            </div>
+        </div>
+    </section>
+
     <script src="script.js"></script>
 </body>
+
 </html>
