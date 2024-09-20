@@ -1,88 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon CV</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Amory Danvy Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <header>
+    <header id="home">
         <nav>
-            <ul>
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#experience">Expérience</a></li>
-                <li><a href="#competences">Compétences</a></li>
-                <li><a href="#education">Éducation</a></li>
-                <li><a href="#projets">Projets</a></li>
+            <div class="logo">Amory Danvy Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="#home">Accueil</a></li>
+                <li><a href="#about">À Propos</a></li>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
+        <div class="header-content">
+            <h1>Amory Danvy</h1>
+            <p>Développeur Informatique</p>
+            <a href="#projects" class="btn">Voir mes projets</a>
+        </div>
     </header>
 
-    <section id="accueil" class="section">
-        <h1>Bienvenue sur mon CV</h1>
-        <p>Développeur Web passionné par la création de solutions innovantes.</p>
+    <section id="about" class="about">
+        <h2>À Propos de Moi</h2>
+        <div class="about-content">
+            <p>Je suis un jeune développeur passionné par l'informatique et le monde de la tech.</p>
+            <img src="img/photo_cv.jpeg" alt="Amory Danvy">
+        </div>
     </section>
+    
 
-    <section id="experience" class="section">
-        <h2>Expérience Professionnelle</h2>
-        <div class="content">
-            <div class="item">
-                <h3>Développeur Front-end</h3>
-                <p>Entreprise XYZ - 2021 à présent</p>
-                <p>Développement d'applications web modernes avec React et Angular.</p>
+    <section id="projects" class="projects">
+        <h2>Mes Projets</h2>
+        <div class="project-cards">
+            <div class="project-card">
+                <h3>Yetablock – Serveur Minecraft</h3>
+                <p>Je suis fier de présenter Yetablock, mon serveur Minecraft personnel, qui représente un projet ambitieux où la créativité et l'interaction se rencontrent. Yetablock est un espace virtuel où les joueurs peuvent explorer un monde riche et dynamique, façonné par des constructions impressionnantes et des aventures captivantes. Ce serveur a été conçu pour offrir une expérience immersive avec des fonctionnalités sur mesure, permettant aux utilisateurs de collaborer, de créer et de partager leurs propres univers en blocs. Mon objectif avec Yetablock est de créer un environnement où chaque joueur peut exprimer son imagination et contribuer à un monde en constante évolution. Ce projet témoigne de ma passion pour le développement de communautés en ligne et la conception d'environnements interactifs.</p>
             </div>
-            <div class="item">
-                <h3>Développeur Back-end</h3>
-                <p>Entreprise ABC - 2019 à 2021</p>
-                <p>Création d'API RESTful et gestion de bases de données.</p>
+            <div class="project-card">
+                <h3>Nuit Du Code</h3>
+                <p>Lors d'un concours de développement, j'ai relevé le défi de créer un jeu en seulement 5 heures. Ce projet express m’a permis de repousser mes limites en matière de créativité, de conception rapide et de prise de décision sous pression. Le jeu, réalisé de bout en bout dans ce court laps de temps, a su captiver les juges par son originalité, me permettant de décrocher la première place du concours. Cette expérience m'a non seulement permis de démontrer mes compétences techniques, mais aussi de prouver ma capacité à innover et à livrer des résultats de qualité en un temps record.</p>
             </div>
+            <!-- Ajout de projets ici -->
         </div>
     </section>
 
-    <section id="competences" class="section">
-        <h2>Compétences</h2>
-        <div class="content">
-            <div class="skill">HTML / CSS</div>
-            <div class="skill">JavaScript / TypeScript</div>
-            <div class="skill">React / Angular</div>
-            <div class="skill">Node.js / Express</div>
-            <div class="skill">SQL / MongoDB</div>
-        </div>
+    <section id="contact" class="contact">
+        <h2>Contact</h2>
+        <form action="mailto:amory@danvy.tv" method="post" enctype="text/plain">
+            <input type="text" placeholder="Votre Nom" required>
+            <input type="email" placeholder="Votre Email" required>
+            <textarea placeholder="Votre Message" required></textarea>
+            <button type="submit" class="btn">Envoyer</button>
+        </form>
     </section>
 
-    <section id="education" class="section">
-        <h2>Éducation</h2>
-        <div class="content">
-            <div class="item">
-                <h3>Master en Informatique</h3>
-                <p>Université de Paris - 2017 à 2019</p>
-            </div>
-            <div class="item">
-                <h3>Licence en Informatique</h3>
-                <p>Université de Lyon - 2014 à 2017</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="projets" class="section">
-        <h2>Projets</h2>
-        <div class="content">
-            <div class="item">
-                <h3>Portfolio Personnel</h3>
-                <p>Site web pour présenter mes projets et compétences.</p>
-            </div>
-            <div class="item">
-                <h3>Application de Gestion de Tâches</h3>
-                <p>Une application pour organiser les tâches et les projets en équipe.</p>
-            </div>
-        </div>
-    </section>
+    <footer>
+        <p>© 2024 Amory Danvy. Tous droits réservés.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
-
 </html>
