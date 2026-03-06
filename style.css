@@ -1,0 +1,54 @@
+/* style.css - Styles personnalisés en complément de Tailwind */
+
+/* --- Base & Scrollbar --- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+}
+
+/* Personnalisation de la barre de défilement (Webkit) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+    /* bg-dark */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #475569;
+    /* slate-600 */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8b5cf6;
+    /* brand */
+}
+
+/* --- Animations --- */
+.fade-in {
+    animation: fadeIn 1.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Effets optionnels sur les liens de contact */
+.hover-glow:hover {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    /* brand glow */
+}
