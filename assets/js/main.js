@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectFilters();
     initTypingEffect();
     initParallax();
+    initThemeToggle();
 });
 
 // ========================================
@@ -53,43 +54,43 @@ function initAOS() {
 function initNavigation() {
     const nav = document.querySelector('nav');
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        
+
         // Ajouter/retirer l'ombre de la navigation
         if (currentScroll > 50) {
             nav.classList.add('shadow-xl', 'nav-fixed');
         } else {
             nav.classList.remove('shadow-xl', 'nav-fixed');
         }
-        
+
         // Navigation cachée au scroll vers le bas
         if (currentScroll > lastScroll && currentScroll > 100) {
             nav.style.transform = 'translateY(-100%)';
         } else {
             nav.style.transform = 'translateY(0)';
         }
-        
+
         lastScroll = currentScroll;
     });
-    
+
     // Active link highlighting
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    
+
     window.addEventListener('scroll', () => {
         let current = '';
-        
+
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            
+
             if (window.scrollY >= (sectionTop - 200)) {
                 current = section.getAttribute('id');
             }
         });
-        
+
         navLinks.forEach(link => {
             link.classList.remove('text-purple-600', 'font-bold');
             if (link.getAttribute('href').slice(1) === current) {
@@ -107,12 +108,12 @@ function initMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileMenuIcon = mobileMenuBtn?.querySelector('i');
-    
+
     if (!mobileMenuBtn || !mobileMenu) return;
-    
+
     mobileMenuBtn.addEventListener('click', () => {
         const isOpen = !mobileMenu.classList.contains('hidden');
-        
+
         if (isOpen) {
             // Fermer le menu
             mobileMenu.classList.add('hidden');
@@ -125,7 +126,7 @@ function initMobileMenu() {
             mobileMenuIcon.classList.add('fa-times');
         }
     });
-    
+
     // Fermer le menu lors du clic sur un lien
     const mobileLinks = mobileMenu.querySelectorAll('a');
     mobileLinks.forEach(link => {
@@ -135,7 +136,7 @@ function initMobileMenu() {
             mobileMenuIcon.classList.add('fa-bars');
         });
     });
-    
+
     // Fermer le menu si on clique en dehors
     document.addEventListener('click', (e) => {
         if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
@@ -152,9 +153,9 @@ function initMobileMenu() {
 
 function initScrollToTop() {
     const scrollTopBtn = document.getElementById('scroll-top');
-    
+
     if (!scrollTopBtn) return;
-    
+
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > CONFIG.scrollTopThreshold) {
             scrollTopBtn.classList.remove('hidden');
@@ -164,7 +165,7 @@ function initScrollToTop() {
             scrollTopBtn.classList.remove('visible');
         }
     });
-    
+
     scrollTopBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
@@ -181,22 +182,22 @@ function initContactForm() {
     const contactForm = document.getElementById('contact-form');
     const formMessage = document.getElementById('form-message');
     const submitBtn = contactForm?.querySelector('button[type="submit"]');
-    
+
     if (!contactForm) return;
-    
+
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         // Désactiver le bouton pendant l'envoi
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Envoi en cours...';
         }
-        
+
         // Récupérer les données du formulaire
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData);
-        
+
         // Simulation d'envoi (remplacer par un vrai envoi en production)
         setTimeout(() => {
             // Afficher le message de succès
@@ -209,16 +210,16 @@ function initContactForm() {
                     </div>
                 `;
             }
-            
+
             // Réinitialiser le formulaire
             contactForm.reset();
-            
+
             // Réactiver le bouton
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Envoyer le message';
             }
-            
+
             // Masquer le message après 5 secondes
             setTimeout(() => {
                 if (formMessage) {
@@ -227,7 +228,7 @@ function initContactForm() {
             }, CONFIG.formSubmitDelay);
         }, 1500);
     });
-    
+
     // Validation en temps réel
     const inputs = contactForm.querySelectorAll('input, textarea');
     inputs.forEach(input => {
@@ -241,16 +242,16 @@ function validateInput(input) {
     const value = input.value.trim();
     const type = input.type;
     const name = input.name;
-    
+
     // Retirer les classes d'erreur existantes
     input.classList.remove('border-red-500');
-    
+
     // Validation basique
     if (value === '') {
         input.classList.add('border-red-500');
         return false;
     }
-    
+
     // Validation email
     if (type === 'email') {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -259,7 +260,7 @@ function validateInput(input) {
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -271,15 +272,15 @@ function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const target = document.querySelector(targetId);
             if (target) {
                 const navHeight = document.querySelector('nav').offsetHeight;
                 const targetPosition = target.offsetTop - navHeight;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -295,9 +296,9 @@ function initSmoothScroll() {
 
 function initSkillsAnimation() {
     const skillBars = document.querySelectorAll('.skill-progress-bar');
-    
+
     if (skillBars.length === 0) return;
-    
+
     const animateSkills = (entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -308,11 +309,11 @@ function initSkillsAnimation() {
             }
         });
     };
-    
+
     const observer = new IntersectionObserver(animateSkills, {
         threshold: 0.5
     });
-    
+
     skillBars.forEach(bar => {
         bar.style.width = '0%';
         observer.observe(bar);
@@ -326,13 +327,13 @@ function initSkillsAnimation() {
 function initProjectFilters() {
     const filterButtons = document.querySelectorAll('[data-filter]');
     const projects = document.querySelectorAll('[data-category]');
-    
+
     if (filterButtons.length === 0) return;
-    
+
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const filter = button.getAttribute('data-filter');
-            
+
             // Mettre à jour les boutons actifs
             filterButtons.forEach(btn => {
                 btn.classList.remove('bg-purple-600', 'text-white');
@@ -340,11 +341,11 @@ function initProjectFilters() {
             });
             button.classList.remove('bg-gray-200', 'text-gray-700');
             button.classList.add('bg-purple-600', 'text-white');
-            
+
             // Filtrer les projets
             projects.forEach(project => {
                 const category = project.getAttribute('data-category');
-                
+
                 if (filter === 'all' || category === filter) {
                     project.style.display = 'block';
                     project.classList.add('fade-in-up');
@@ -362,24 +363,24 @@ function initProjectFilters() {
 
 function initTypingEffect() {
     const typingElement = document.querySelector('.typing-effect');
-    
+
     if (!typingElement) return;
-    
+
     const texts = [
         'Développeur Web',
         'Étudiant BTS SIO SLAM',
         'Passionné de Code',
         'Créateur d\'Applications'
     ];
-    
+
     let textIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     let typingSpeed = 100;
-    
+
     function type() {
         const currentText = texts[textIndex];
-        
+
         if (isDeleting) {
             typingElement.textContent = currentText.substring(0, charIndex - 1);
             charIndex--;
@@ -389,7 +390,7 @@ function initTypingEffect() {
             charIndex++;
             typingSpeed = 100;
         }
-        
+
         if (!isDeleting && charIndex === currentText.length) {
             typingSpeed = 2000;
             isDeleting = true;
@@ -398,10 +399,10 @@ function initTypingEffect() {
             textIndex = (textIndex + 1) % texts.length;
             typingSpeed = 500;
         }
-        
+
         setTimeout(type, typingSpeed);
     }
-    
+
     type();
 }
 
@@ -411,18 +412,75 @@ function initTypingEffect() {
 
 function initParallax() {
     const parallaxElements = document.querySelectorAll('[data-parallax]');
-    
+
     if (parallaxElements.length === 0) return;
-    
+
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        
+
         parallaxElements.forEach(element => {
             const speed = element.getAttribute('data-parallax') || 0.5;
             const yPos = -(scrolled * speed);
             element.style.transform = `translateY(${yPos}px)`;
         });
     });
+}
+
+// ========================================
+// Theme Toggle
+// ========================================
+
+function initThemeToggle() {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+    const html = document.documentElement;
+
+    // Check for saved user preference, if any, on load of the website
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark');
+        updateThemeIcons(true);
+    } else {
+        html.classList.remove('dark');
+        updateThemeIcons(false);
+    }
+
+    function toggleTheme() {
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.theme = 'light';
+            updateThemeIcons(false);
+        } else {
+            html.classList.add('dark');
+            localStorage.theme = 'dark';
+            updateThemeIcons(true);
+        }
+    }
+
+    function updateThemeIcons(isDark) {
+        const iconClass = isDark ? 'fa-sun' : 'fa-moon';
+
+        if (themeToggleBtn) {
+            const icon = themeToggleBtn.querySelector('i');
+            if (icon) {
+                icon.className = `fas ${iconClass}`;
+            }
+        }
+
+        if (themeToggleMobileBtn) {
+            const icon = themeToggleMobileBtn.querySelector('i');
+            if (icon) {
+                icon.className = `fas ${iconClass}`;
+            }
+        }
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    }
+
+    if (themeToggleMobileBtn) {
+        themeToggleMobileBtn.addEventListener('click', toggleTheme);
+    }
 }
 
 // ========================================
@@ -443,7 +501,7 @@ function debounce(func, wait) {
 
 function throttle(func, limit) {
     let inThrottle;
-    return function(...args) {
+    return function (...args) {
         if (!inThrottle) {
             func.apply(this, args);
             inThrottle = true;
@@ -467,6 +525,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initSkillsAnimation,
         initProjectFilters,
         initTypingEffect,
-        initParallax
+        initParallax,
+        initThemeToggle
     };
 }

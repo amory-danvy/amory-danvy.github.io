@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './*.html',
     './assets/js/**/*.js',
@@ -55,33 +56,33 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         fadeUp: {
-          '0%': { 
+          '0%': {
             opacity: '0',
-            transform: 'translateY(30px)' 
+            transform: 'translateY(30px)'
           },
-          '100%': { 
+          '100%': {
             opacity: '1',
-            transform: 'translateY(0)' 
+            transform: 'translateY(0)'
           },
         },
         slideLeft: {
-          '0%': { 
+          '0%': {
             opacity: '0',
-            transform: 'translateX(-30px)' 
+            transform: 'translateX(-30px)'
           },
-          '100%': { 
+          '100%': {
             opacity: '1',
-            transform: 'translateX(0)' 
+            transform: 'translateX(0)'
           },
         },
         slideRight: {
-          '0%': { 
+          '0%': {
             opacity: '0',
-            transform: 'translateX(30px)' 
+            transform: 'translateX(30px)'
           },
-          '100%': { 
+          '100%': {
             opacity: '1',
-            transform: 'translateX(0)' 
+            transform: 'translateX(0)'
           },
         },
       },
