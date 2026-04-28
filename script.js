@@ -1,60 +1,139 @@
-// script.js - Logique d'interface utilisateur
+// ==========================================================
+// Amory Danvy — Portfolio
+// JS minimal : Lenis smooth scroll + nav mobile + nav scroll state
+// ==========================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
+  'use strict';
 
-    // 1. Gestion du menu mobile (Hamburger Menu)
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileLinks = mobileMenu.querySelectorAll('a');
-
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Ferme le menu mobile lorsqu'un lien est cliqué
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-    }
-
-    // 2. Transparence de la barre de navigation au défilement
-    const navbar = document.getElementById('navbar');
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            // Utilisateur scrolle vers le bas
-            navbar.classList.add('shadow-lg', 'bg-dark/95', 'border-gray-800');
-            navbar.classList.remove('bg-dark/80', 'border-transparent');
-        } else {
-            // Utilisateur est tout en haut
-            navbar.classList.add('bg-dark/80', 'border-transparent');
-            navbar.classList.remove('shadow-lg', 'bg-dark/95', 'border-gray-800');
-        }
+  // --- Lenis smooth scroll ---
+  // Si Lenis n'a pas chargé (offline / CDN down), on garde scroll-behavior CSS.
+  let lenis = null;
+  if (typeof window.Lenis === 'function') {
+    lenis = new window.Lenis({
+      duration: 1.05,
+      easing: function (t) {
+        return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+      },
+      smoothWheel: true,
+      smoothTouch: false,
+      touchMultiplier: 1.5,
     });
+    window.__lenis = lenis;
 
-    // 3. (Optionnel) Ajout d'une petite animation d'apparition au scroll pour les sections
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
+    var raf = function (time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
+  }
+
+  // --- Anchor links : smooth scroll vers l'ancre, offset nav ---
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (event) {
+      var hash = anchor.getAttribute('href');
+      if (!hash || hash === '#') return;
+
+      var target = document.querySelector(hash);
+      if (!target) return;
+
+      event.preventDefault();
+      var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 56;
+      var offset = -navH - 8;
+
+      if (lenis) {
+        lenis.scrollTo(target, { offset: offset, duration: 1.1 });
+      } else {
+        var top = target.getBoundingClientRect().top + window.pageYOffset + offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // --- Nav mobile toggle ---
+  var navToggle = document.getElementById('navToggle');
+  var navMobile = document.getElementById('navMobile');
+
+  if (navToggle && navMobile) {
+    var setMenuState = function (open) {
+      navToggle.setAttribute('aria-expanded', String(open));
+      navMobile.hidden = !open;
+      var icon = navToggle.querySelector('i');
+      if (icon) {
+        icon.className = open ? 'ph ph-x' : 'ph ph-list';
+      }
+      navToggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
     };
 
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+    setMenuState(false);
 
-    // Observer les en-têtes de section pour les animer
-    document.querySelectorAll('section h2').forEach(heading => {
-        // Prepare element for animation by resetting opacity if needed
-        heading.style.opacity = '0';
-        sectionObserver.observe(heading);
+    navToggle.addEventListener('click', function () {
+      var expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      setMenuState(!expanded);
     });
-});
+
+    navMobile.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        setMenuState(false);
+      });
+    });
+
+    // Fermer le menu au resize desktop
+    var mq = window.matchMedia('(min-width: 861px)');
+    var handleMQ = function (e) {
+      if (e.matches) setMenuState(false);
+    };
+    if (mq.addEventListener) {
+      mq.addEventListener('change', handleMQ);
+    } else if (mq.addListener) {
+      mq.addListener(handleMQ);
+    }
+  }
+
+  // --- Nav scrolled state ---
+  var nav = document.getElementById('nav');
+  if (nav) {
+    var isScrolled = false;
+    var updateNav = function () {
+      var scrolled = window.scrollY > 8;
+      if (scrolled !== isScrolled) {
+        isScrolled = scrolled;
+        nav.classList.toggle('nav--scrolled', scrolled);
+      }
+    };
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  }
+
+  // --- Active section highlight in nav (scrollspy léger) ---
+  var navLinks = document.querySelectorAll('.nav__list a[href^="#"], .nav__mobile a[href^="#"]');
+  var sectionIds = Array.from(navLinks)
+    .map(function (a) { return a.getAttribute('href').slice(1); })
+    .filter(Boolean);
+  var sections = sectionIds
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    var setActive = function (id) {
+      navLinks.forEach(function (link) {
+        var href = link.getAttribute('href');
+        var match = href === '#' + id;
+        link.classList.toggle('is-active', match);
+        if (match) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    };
+
+    var spyObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+    sections.forEach(function (s) { spyObs.observe(s); });
+  }
+
+})();

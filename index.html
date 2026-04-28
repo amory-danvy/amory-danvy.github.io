@@ -1,779 +1,744 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - BTS SIO SLAM</title>
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: '#8b5cf6', /* Violet/Purple accent */
-                        accent: '#3b82f6', /* Blue accent */
-                        dark: '#0f172a',
-                        card: '#1e293b'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome (CDN) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
+    <title>Amory Danvy — Développeur en alternance, IA agentique</title>
+    <meta name="description"
+        content="Portfolio d'Amory Danvy, étudiant BTS SIO SLAM, alternant chez Siccardi Tech Leads. Développeur spécialisé en IA agentique : Python, TypeScript, automatisation.">
+    <meta name="theme-color" content="#0F1419">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Amory Danvy — Développeur en alternance, IA agentique">
+    <meta property="og:description"
+        content="Portfolio d'Amory Danvy. Python, TypeScript, IA agentique, automatisation.">
+    <meta property="og:type" content="website">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+
+    <!-- Geist via Fontshare -->
+    <link href="https://api.fontshare.com/v2/css?f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
+    <!-- JetBrains Mono via Bunny Fonts (privacy-respecting drop-in, NOT Google Fonts) -->
+    <link href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500,700,800&display=swap" rel="stylesheet">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-dark text-white antialiased selection:bg-brand selection:text-white">
+<body>
 
-    <!-- Navbar -->
-    <nav id="navbar"
-        class="fixed w-full z-50 transition-all duration-300 bg-dark/80 backdrop-blur-md border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Nom / Logo -->
-                <a href="#"
-                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand to-accent tracking-tight">
-                    Amory Danvy
-                </a>
+    <a class="skip-link" href="#main">Aller au contenu</a>
 
-                <!-- Menu Desktop -->
-                <div class="hidden lg:flex space-x-6 items-center text-sm">
-                    <a href="#accueil" class="hover:text-brand transition-colors font-medium">Accueil</a>
-                    <a href="#apropos" class="hover:text-brand transition-colors font-medium">À Propos</a>
-                    <a href="#parcours" class="hover:text-brand transition-colors font-medium">Parcours</a>
-                    <a href="#competences" class="hover:text-brand transition-colors font-medium">Compétences</a>
-                    <a href="#projets" class="hover:text-brand transition-colors font-medium">Projets</a>
-                    <a href="#synthese" class="hover:text-brand transition-colors font-medium">Synthèse</a>
-                    <a href="#veille" class="hover:text-brand transition-colors font-medium">Veille</a>
-                    <a href="#contact" class="hover:text-brand transition-colors font-medium">Contact</a>
-                </div>
-
-                <!-- Bouton Menu Mobile -->
-                <div class="lg:hidden flex items-center">
-                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
+    <!-- Navigation -->
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+        <div class="nav__inner">
+            <a href="#top" class="nav__brand" aria-label="Retour en haut">
+                <span class="nav__brand-prompt">&gt;</span>
+                <span class="nav__brand-name">amory_danvy</span>
+            </a>
+            <ul class="nav__list" role="list">
+                <li><a href="#projets">Projets</a></li>
+                <li><a href="#apropos">À propos</a></li>
+                <li><a href="#parcours">Parcours</a></li>
+                <li><a href="#competences">Stack</a></li>
+                <li><a href="#synthese">Synthèse</a></li>
+                <li><a href="#veille">Veille</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="nav__toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false"
+                aria-controls="navMobile">
+                <i class="ph ph-list" aria-hidden="true"></i>
+            </button>
         </div>
-
-        <!-- Menu Mobile (Caché par défaut) -->
-        <div id="mobile-menu"
-            class="hidden lg:hidden bg-card border-b border-gray-800 shadow-xl max-h-screen overflow-y-auto">
-            <div class="px-4 py-4 space-y-2">
-                <a href="#accueil"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Accueil</a>
-                <a href="#apropos"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">À
-                    Propos</a>
-                <a href="#parcours"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Parcours</a>
-                <a href="#competences"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Compétences</a>
-                <a href="#projets"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Projets</a>
-                <a href="#synthese"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Synthèse</a>
-                <a href="#veille"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Veille</a>
-                <a href="#contact"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Contact</a>
-            </div>
+        <div class="nav__mobile" id="navMobile" hidden>
+            <a href="#projets">Projets</a>
+            <a href="#apropos">À propos</a>
+            <a href="#parcours">Parcours</a>
+            <a href="#competences">Stack</a>
+            <a href="#synthese">Synthèse</a>
+            <a href="#veille">Veille</a>
+            <a href="#contact">Contact</a>
         </div>
     </nav>
 
-    <!-- Section: Hero / Accueil -->
-    <section id="accueil" class="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden">
-        <!-- Effets de fond -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand/10 rounded-full blur-[120px] pointer-events-none">
-        </div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-[120px] pointer-events-none">
-        </div>
+    <main id="main">
 
-        <div class="text-center z-10 px-4 fade-in max-w-4xl">
-            <p class="text-brand font-semibold tracking-widest mb-3 uppercase text-sm">Portfolio</p>
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
-                Amory <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent">Danvy</span>
-            </h1>
-            <h2 class="text-xl md:text-3xl text-gray-300 mb-8 border-b border-gray-700/50 pb-4 inline-block">
-                Étudiant BTS SIO SLAM & Développeur Web
-            </h2>
-            <p class="text-gray-400 mx-auto text-lg mb-10 leading-relaxed max-w-3xl">
-                Passionné par l'innovation logicielle, je me spécialise dans le développement d'applications
-                intelligentes et l'intégration d'intelligences artificielles agentiques pour automatiser et optimiser
-                nos processus
-                métiers.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#apropos"
-                    class="px-8 py-4 bg-gradient-to-r from-brand to-accent hover:from-purple-500 hover:to-blue-500 text-white rounded-full font-bold text-lg transition-transform transform hover:scale-105 shadow-lg shadow-brand/25">
-                    Découvrir mon profil <i class="fas fa-arrow-down ml-2"></i>
-                </a>
-                <a href="#contact"
-                    class="px-8 py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-full font-bold text-lg transition-colors border border-gray-700">
-                    Me contacter
-                </a>
+        <!-- ============================================== -->
+        <!-- SECTION 1 — HERO                                -->
+        <!-- ============================================== -->
+        <section class="hero" id="top" aria-label="Accueil">
+            <div class="hero__grid">
+                <div class="hero__main">
+                    <p class="hero__meta" aria-hidden="true">// portfolio · v2026.04</p>
+
+                    <h1 class="hero__name">
+                        <span class="hero__name-line">amory</span>
+                        <span class="hero__name-line">danvy<span class="hero__cursor"
+                                aria-hidden="true">_</span></span>
+                    </h1>
+
+                    <p class="hero__tagline">
+                        Développeur en alternance, spécialisé IA agentique.
+                    </p>
+
+                    <p class="hero__desc">
+                        Je travaille avec l'IA agentique au quotidien chez Siccardi Tech Leads, dans le cadre de mon
+                        alternance BTS SIO SLAM. J'aime construire des outils qui font disparaître des heures de
+                        tâches manuelles. Mon terrain de jeu&nbsp;: Python, TypeScript, et tout ce qui peut être
+                        automatisé.
+                    </p>
+
+                    <div class="hero__cta">
+                        <a href="#projets" class="btn btn--primary">
+                            <span>Voir les projets</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="#contact" class="btn btn--ghost">
+                            <span>Contact</span>
+                        </a>
+                    </div>
+
+                    <a class="hero__doc" href="Tableau_Synthese.pdf" target="_blank" rel="noopener noreferrer"
+                        aria-label="Ouvrir le tableau de synthèse au format PDF">
+                        <i class="ph ph-file-pdf" aria-hidden="true"></i>
+                        <span>tableau de synthèse · pdf</span>
+                        <i class="ph ph-arrow-up-right hero__doc-arrow" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <aside class="sys" aria-label="Informations professionnelles">
+                    <div class="sys__head">
+                        <span class="sys__head-dot" aria-hidden="true"></span>
+                        <span class="sys__head-label">system</span>
+                    </div>
+                    <dl class="sys__list">
+                        <div class="sys__row">
+                            <dt class="sys__key">status</dt>
+                            <dd class="sys__val sys__val--accent">open for alternance</dd>
+                        </div>
+                        <div class="sys__row">
+                            <dt class="sys__key">location</dt>
+                            <dd class="sys__val">rambouillet, fr</dd>
+                        </div>
+                        <div class="sys__row">
+                            <dt class="sys__key">company</dt>
+                            <dd class="sys__val">siccardi tech leads</dd>
+                        </div>
+                        <div class="sys__row">
+                            <dt class="sys__key">since</dt>
+                            <dd class="sys__val">2024-09</dd>
+                        </div>
+                        <div class="sys__row">
+                            <dt class="sys__key">stack</dt>
+                            <dd class="sys__val">python · ts · ia</dd>
+                        </div>
+                        <div class="sys__row">
+                            <dt class="sys__key">degree</dt>
+                            <dd class="sys__val">bts sio · slam</dd>
+                        </div>
+                    </dl>
+                </aside>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section: À propos de moi -->
-    <section id="apropos" class="py-24 bg-card/40 border-t border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                <!-- Texte -->
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">À propos de <span class="text-brand">moi</span></h2>
-                    <div class="w-16 h-1 bg-accent mb-8 rounded"></div>
+        <!-- ============================================== -->
+        <!-- SECTION 2 — PROJETS                             -->
+        <!-- ============================================== -->
+        <section class="section section--projets" id="projets" aria-labelledby="projets-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">01 / projets</p>
+                    <h2 class="section__title" id="projets-title">Travaux récents</h2>
+                    <p class="section__lead">
+                        Sélection de projets construits dans le cadre du BTS SIO SLAM ou en exploration
+                        personnelle. Code source disponible quand le contexte le permet.
+                    </p>
+                </header>
 
-                    <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
+                <ul class="projects" role="list">
+
+                    <!-- Projet 01 — Générateur de CV -->
+                    <li class="project">
+                        <a class="project__card" href="https://github.com/amory-danvy/Projet1_bts" target="_blank"
+                            rel="noopener noreferrer" aria-label="Voir le code de Générateur de CV Dynamique sur GitHub">
+                            <div class="project__media" data-icon-name="ph-identification-card">
+                                <img class="project__img" src="assets/project-cv.jpg" alt="" loading="lazy"
+                                    onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/project-cv.svg';}else{this.parentElement.classList.add('project__media--missing');this.remove();}">
+                                <span class="project__media-icon" aria-hidden="true">
+                                    <i class="ph ph-identification-card"></i>
+                                </span>
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 01</p>
+                                <h3 class="project__title">Générateur de CV Dynamique</h3>
+                                <p class="project__desc">
+                                    Application web pour créer et gérer des CV professionnels. Authentification
+                                    sécurisée, dashboard, choix de thèmes (Standard, Blue, Dark), export PDF
+                                    simplifié.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>python</li>
+                                    <li>html</li>
+                                    <li>css</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+                                    <span class="project__action-label">github.com/amory-danvy/Projet1_bts</span>
+                                    <i class="ph ph-arrow-up-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <!-- Projet 02 — Patrimonia -->
+                    <li class="project">
+                        <a class="project__card" href="https://github.com/amory-danvy/Patrimonia" target="_blank"
+                            rel="noopener noreferrer" aria-label="Voir le code de Patrimonia sur GitHub">
+                            <div class="project__media">
+                                <img class="project__img" src="Patrimonia.png" alt="Aperçu de Patrimonia"
+                                    loading="lazy">
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 02</p>
+                                <h3 class="project__title">Patrimonia</h3>
+                                <p class="project__desc">
+                                    Application full-stack de gestion de patrimoine : suivi d'actifs, dashboard
+                                    interactif avec graphiques, simulateur d'intérêts et authentification sécurisée.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>react</li>
+                                    <li>node.js</li>
+                                    <li>sqlite</li>
+                                    <li>tailwind</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+                                    <span class="project__action-label">github.com/amory-danvy/Patrimonia</span>
+                                    <i class="ph ph-arrow-up-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <!-- Projet 03 — NewsHunter -->
+                    <li class="project">
+                        <a class="project__card"
+                            href="https://github.com/amory-danvy/newshunter_twitter/tree/main/NewsHunter2"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Voir le code de NewsHunter sur GitHub">
+                            <div class="project__media">
+                                <img class="project__img" src="assets/project-newshunter.jpg" alt="" loading="lazy"
+                                    onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/project-newshunter.svg';}else{this.parentElement.classList.add('project__media--missing');this.remove();}">
+                                <span class="project__media-icon" aria-hidden="true">
+                                    <i class="ph ph-newspaper-clipping"></i>
+                                </span>
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 03</p>
+                                <h3 class="project__title">NewsHunter — Tweet Fetcher</h3>
+                                <p class="project__desc">
+                                    Script d'automatisation Python branché sur l'API X (Twitter) via Tweepy. Extrait,
+                                    filtre et archive les flux en temps réel pour de la veille automatisée.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>python</li>
+                                    <li>tweepy</li>
+                                    <li>automation</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+                                    <span
+                                        class="project__action-label">github.com/amory-danvy/newshunter_twitter</span>
+                                    <i class="ph ph-arrow-up-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <!-- Projet 04 — VintedBoost (Vintgen) -->
+                    <li class="project">
+                        <a class="project__card" href="https://github.com/amory-danvy/vintgen" target="_blank"
+                            rel="noopener noreferrer" aria-label="Voir le code de Vintgen sur GitHub">
+                            <div class="project__media">
+                                <!-- Image à la racine — pourra être déplacée vers assets/project-vintedboost.jpg -->
+                                <img class="project__img" src="vintedboost-preview.png"
+                                    alt="Capture du tableau de bord Vintgen" loading="lazy">
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 04</p>
+                                <h3 class="project__title">Vintgen — IA &amp; automatisation</h3>
+                                <p class="project__desc">
+                                    Photo d'un article → prix conseillé, description optimisée et hashtags pertinents
+                                    en quelques secondes. Un vrai gain de temps pour les vendeurs Vinted.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>next.js</li>
+                                    <li>typescript</li>
+                                    <li>tailwind</li>
+                                    <li>gemini vision</li>
+                                    <li>convex</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+                                    <span class="project__action-label">github.com/amory-danvy/vintgen</span>
+                                    <i class="ph ph-arrow-up-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- SECTION 3 — À PROPOS                            -->
+        <!-- ============================================== -->
+        <section class="section section--about" id="apropos" aria-labelledby="apropos-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">02 / à propos</p>
+                    <h2 class="section__title" id="apropos-title">Profil</h2>
+                </header>
+
+                <div class="about__grid">
+                    <div class="about__text">
                         <p>
                             Actuellement étudiant en <strong>BTS SIO</strong> (Services Informatiques aux
-                            Organisations), j'ai choisi de me spécialiser dans l'option <strong>SLAM</strong> (Solutions
-                            Logicielles et Applications Métiers). Ce parcours me permet d'explorer en profondeur la
-                            conception, le développement et la maintenance d'applications, allant du front-end aux bases
-                            de données complexes.
+                            Organisations), j'ai choisi de me spécialiser dans l'option <strong>SLAM</strong>
+                            (Solutions Logicielles et Applications Métiers). Ce parcours me permet d'explorer en
+                            profondeur la conception, le développement et la maintenance d'applications, allant du
+                            front-end aux bases de données complexes.
                         </p>
                         <p>
-                            Toujours avide d'apprendre de nouvelles technologies et de relever des défis techniques, je
-                            suis en <strong>recherche active d'un stage ou d'une alternance</strong>. Plonger dans un
+                            Toujours avide d'apprendre de nouvelles technologies et de relever des défis techniques,
+                            je suis en <strong>recherche active d'une alternance</strong>. Plonger dans un
                             environnement professionnel est pour moi l'étape clé pour mettre en pratique mes
                             compétences, collaborer en équipe et contribuer à des projets concrets et impactants.
                         </p>
+
+                        <ul class="about__badges" role="list" aria-label="Statut professionnel">
+                            <li class="badge">
+                                <i class="ph ph-map-pin" aria-hidden="true"></i>
+                                <span>Rambouillet, FR</span>
+                            </li>
+                            <li class="badge badge--accent">
+                                <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
+                                <span>Recherche alternance</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="mt-8 flex gap-4">
-                        <div class="flex items-center gap-3 bg-gray-800/50 px-4 py-2 rounded-lg border border-gray-700">
-                            <i class="fas fa-map-marker-alt text-brand"></i>
-                            <span class="text-sm font-medium">Rambouillet</span>
-                        </div>
-                        <div class="flex items-center gap-3 bg-gray-800/50 px-4 py-2 rounded-lg border border-gray-700">
-                            <i class="fas fa-search text-accent"></i>
-                            <span class="text-sm font-medium">Recherche Alternance</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Illustration parfaitement intégrée au thème -->
-                <div class="lg:w-1/2 flex justify-center lg:justify-end relative">
-                    <!-- Cadre propre du thème (border-gray-800) avec une ombre -->
-                    <div
-                        class="w-full max-w-md rounded-2xl border border-gray-800 shadow-2xl overflow-hidden bg-card/30 transition-transform duration-500 hover:-translate-y-2 hover:shadow-brand/20">
-                        <img src="photo_amory.png" alt="Portrait d'Amory Danvy"
-                            class="w-full h-[500px] object-cover object-center">
-                    </div>
+                    <figure class="about__portrait">
+                        <img src="assets/portrait-amory.jpg" alt="Portrait d'Amory Danvy" loading="lazy"
+                            onerror="this.onerror=null; this.src='photo_amory.png';">
+                        <figcaption class="about__caption" aria-hidden="true">
+                            <span class="about__caption-key">[ id ]</span>
+                            <span class="about__caption-val">amory.danvy</span>
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section: Parcours & Formations -->
-    <section id="parcours" class="py-24 border-t border-gray-800/50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold">Parcours & <span class="text-accent">Formations</span></h2>
-                <div class="w-16 h-1 bg-brand mx-auto mt-4 rounded"></div>
+        <!-- ============================================== -->
+        <!-- SECTION 4 — PARCOURS                            -->
+        <!-- ============================================== -->
+        <section class="section section--parcours" id="parcours" aria-labelledby="parcours-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">03 / parcours</p>
+                    <h2 class="section__title" id="parcours-title">Formation &amp; expérience</h2>
+                </header>
+
+                <ol class="timeline" role="list">
+
+                    <!-- Étape 01 — Apprenti Développeur -->
+                    <li class="timeline__item">
+                        <div class="timeline__rail">
+                            <span class="timeline__num" aria-hidden="true">01</span>
+                            <p class="timeline__date">2024 — en cours</p>
+                            <span class="timeline__tag">alternance</span>
+                        </div>
+                        <div class="timeline__content">
+                            <h3 class="timeline__title">Apprenti Développeur</h3>
+                            <p class="timeline__org">Siccardi Tech Leads</p>
+                            <p class="timeline__desc">
+                                Conception et développement d'outils et de plateformes intégrant des intelligences
+                                artificielles agentiques. Le projet vise à automatiser des processus complexes de
+                                développement et à fournir des solutions avancées pour des clients B2B dans le
+                                secteur technologique.
+                            </p>
+                            <ul class="timeline__missions" role="list">
+                                <li>Développement de nouvelles fonctionnalités avec l'IA agentique.</li>
+                                <li>Création et mise en place de tests automatisés pour fiabiliser le code.</li>
+                                <li>Missions de R&amp;D et benchmark sur les nouvelles technologies IA.</li>
+                                <li>Collaboration en équipe avec de nombreuses code reviews.</li>
+                            </ul>
+                            <ul class="timeline__stack" role="list" aria-label="Stack &amp; outils">
+                                <li>python</li>
+                                <li>typescript</li>
+                                <li>ia agentique</li>
+                                <li>git / github</li>
+                                <li>tests auto</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Étape 02 — BTS SIO SLAM -->
+                    <li class="timeline__item">
+                        <div class="timeline__rail">
+                            <span class="timeline__num" aria-hidden="true">02</span>
+                            <p class="timeline__date">2024 — 2026</p>
+                            <span class="timeline__tag timeline__tag--ghost">formation</span>
+                        </div>
+                        <div class="timeline__content">
+                            <h3 class="timeline__title">BTS SIO — option SLAM</h3>
+                            <p class="timeline__org">CFA Trajectoire</p>
+                            <p class="timeline__desc">
+                                Formation axée sur le développement d'applications métiers (C#, PHP, Java) et la
+                                gestion de bases de données (SQL). Réalisation de nombreux projets pratiques.
+                            </p>
+                        </div>
+                    </li>
+
+                    <!-- Étape 03 — Bac -->
+                    <li class="timeline__item timeline__item--past">
+                        <div class="timeline__rail">
+                            <span class="timeline__num" aria-hidden="true">03</span>
+                            <p class="timeline__date">2024</p>
+                            <span class="timeline__tag timeline__tag--ghost">diplôme</span>
+                        </div>
+                        <div class="timeline__content">
+                            <h3 class="timeline__title">Baccalauréat Général</h3>
+                            <p class="timeline__org">Lycée Louis-Bascan</p>
+                            <p class="timeline__desc">
+                                Spécialités Maths &amp; NSI (Spécialité Physique abandonnée en 1<sup>re</sup>).
+                                Section Européenne Anglais.
+                            </p>
+                        </div>
+                    </li>
+
+                </ol>
             </div>
+        </section>
 
-            <!-- Timeline -->
-            <div class="border-l-2 border-gray-700 pl-8 ml-4 md:ml-0 md:pl-10 space-y-12 relative">
+        <!-- ============================================== -->
+        <!-- SECTION 5 — COMPÉTENCES                         -->
+        <!-- ============================================== -->
+        <section class="section section--skills" id="competences" aria-labelledby="competences-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">04 / stack</p>
+                    <h2 class="section__title" id="competences-title">Langages &amp; technologies</h2>
+                    <p class="section__lead">
+                        Niveau honnête sur les langages que j'utilise au quotidien en alternance, en cours, ou sur
+                        mes projets perso.
+                    </p>
+                </header>
 
-                <!-- Étape 3 (Alternance) -->
-                <div class="relative group">
-                    <!-- Point sur la ligne -->
-                    <div
-                        class="absolute -left-[45px] top-1.5 w-6 h-6 bg-dark border-4 border-brand rounded-full group-hover:scale-125 group-hover:bg-brand transition-all duration-300">
+                <ul class="skills" role="list">
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">01</span>
+                        <span class="skill__name">Python</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau Python : avancé"
+                            aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.85;"></span>
+                        </span>
+                        <span class="skill__level">avancé</span>
+                    </li>
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">02</span>
+                        <span class="skill__name">TypeScript</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau TypeScript : avancé"
+                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.80;"></span>
+                        </span>
+                        <span class="skill__level">avancé</span>
+                    </li>
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">03</span>
+                        <span class="skill__name">JavaScript</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau JavaScript : intermédiaire"
+                            aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.70;"></span>
+                        </span>
+                        <span class="skill__level">intermédiaire</span>
+                    </li>
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">04</span>
+                        <span class="skill__name">HTML / CSS</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau HTML/CSS : intermédiaire"
+                            aria-valuenow="68" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.68;"></span>
+                        </span>
+                        <span class="skill__level">intermédiaire</span>
+                    </li>
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">05</span>
+                        <span class="skill__name">SQL</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau SQL : intermédiaire"
+                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.60;"></span>
+                        </span>
+                        <span class="skill__level">intermédiaire</span>
+                    </li>
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">06</span>
+                        <span class="skill__name">PHP</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau PHP : cours BTS"
+                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.50;"></span>
+                        </span>
+                        <span class="skill__level">cours BTS</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- SECTION 6 — TABLEAU DE SYNTHÈSE                 -->
+        <!-- ============================================== -->
+        <section class="section section--synthese" id="synthese" aria-labelledby="synthese-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">05 / synthèse</p>
+                    <h2 class="section__title" id="synthese-title">Tableau de synthèse</h2>
+                    <p class="section__lead">
+                        Récapitulatif des compétences mises en œuvre durant ma formation BTS SIO SLAM —
+                        document fourni au jury.
+                    </p>
+                </header>
+
+                <a class="document" href="Tableau_Synthese.pdf" target="_blank" rel="noopener noreferrer"
+                    aria-label="Ouvrir le tableau de synthèse au format PDF">
+                    <span class="document__icon" aria-hidden="true">
+                        <i class="ph ph-file-pdf"></i>
+                    </span>
+                    <div class="document__meta">
+                        <p class="document__type">// document · pdf</p>
+                        <p class="document__name">Tableau_Synthese.pdf</p>
+                        <p class="document__sub">Compétences BTS SIO SLAM · 2024 — 2026</p>
                     </div>
-                    <!-- Contenu -->
-                    <div
-                        class="bg-card rounded-2xl border border-gray-800 hover:border-brand/50 transition-colors shadow-lg overflow-hidden">
-                        <div class="p-6">
-                            <span
-                                class="text-brand font-bold text-sm bg-brand/10 px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center mb-4">
-                                <i class="fas fa-briefcase mr-2"></i> 2024 - 2026
-                            </span>
-                            <h3 class="text-2xl font-bold text-white">Apprenti Développeur</h3>
-                            <h4 class="text-lg text-accent font-medium mb-4">Siccardi Tech Leads</h4>
+                    <i class="ph ph-arrow-up-right document__arrow" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
 
-                            <div class="space-y-4">
-                                <div>
-                                    <h5 class="text-white font-semibold flex items-center"><i
-                                            class="fas fa-project-diagram text-brand mr-2"></i> Le Projet & Contexte
-                                    </h5>
-                                    <p class="text-gray-400 text-sm mt-1 leading-relaxed">
-                                        Conception et développement d'outils et de plateformes innovantes intégrant
-                                        des intelligences artificielles agentiques. Le projet vise à automatiser des
-                                        processus complexes de développement et à fournir des solutions avancées
-                                        pour des clients B2B dans le secteur technologique.
-                                    </p>
-                                </div>
-                                <div>
-                                    <h5 class="text-white font-semibold flex items-center"><i
-                                            class="fas fa-tasks text-brand mr-2"></i> Principales Missions</h5>
-                                    <ul class="text-gray-400 text-sm mt-1 list-disc list-inside space-y-1">
-                                        <li>Développement de nouvelles fonctionnalités avec l'IA agentique.</li>
-                                        <li>Création et mise en place de tests automatisés pour fiabiliser le code.
-                                        </li>
-                                        <li>Missions de R&D et benchmark sur les nouvelles technologies IA.</li>
-                                        <li>Collaboration en équipe avec de nombreuses Code Reviews.</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h5 class="text-white font-semibold flex items-center"><i
-                                            class="fas fa-code text-brand mr-2"></i> Stack & Outils</h5>
-                                    <div class="flex flex-wrap gap-2 mt-2">
-                                        <span
-                                            class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700">Python</span>
-                                        <span
-                                            class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700">TypeScript</span>
-                                        <span
-                                            class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700">IA
-                                            Agentique</span>
-                                        <span
-                                            class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700">Git
-                                            / GitHub</span>
-                                        <span
-                                            class="text-xs font-medium px-2 py-1 bg-gray-800 text-gray-300 rounded border border-gray-700">Tests
-                                            Auto</span>
-                                    </div>
-                                </div>
+        <!-- ============================================== -->
+        <!-- SECTION 7 — VEILLE TECHNOLOGIQUE                -->
+        <!-- ============================================== -->
+        <section class="section section--veille" id="veille" aria-labelledby="veille-title">
+            <div class="container">
+                <header class="section__head section__head--wide">
+                    <p class="section__num">06 / veille</p>
+                    <h2 class="section__title" id="veille-title">Veille technologique</h2>
+                    <p class="section__lead">
+                        Sujet : <strong>les assistants de codage (IA générative)</strong>. J'étudie l'évolution
+                        de GitHub Copilot, Cursor, Claude Code et Antigravity pour comprendre comment ces
+                        assistants transforment le métier — l'enjeu : remplacer le développeur, ou simplement
+                        redéfinir sa manière de débugger et concevoir des applications.
+                    </p>
+
+                    <div class="watch__sources" aria-label="Outils de veille">
+                        <p class="watch__sources-label">// sources</p>
+                        <ul role="list">
+                            <li>
+                                <i class="ph ph-rss-simple" aria-hidden="true"></i>
+                                <span>Feedly</span>
+                            </li>
+                            <li>
+                                <i class="ph ph-code" aria-hidden="true"></i>
+                                <span>Dev.to</span>
+                            </li>
+                            <li>
+                                <i class="ph ph-fire" aria-hidden="true"></i>
+                                <span>Hacker News</span>
+                            </li>
+                            <li>
+                                <i class="ph ph-github-logo" aria-hidden="true"></i>
+                                <span>GitHub Trending</span>
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+
+                <ul class="watch" role="list">
+
+                    <!-- Article 01 — IDE AI-Native -->
+                    <li>
+                        <a class="article"
+                            href="https://www.frenchweb.fr/connaissez-vous-cursor-lediteur-de-code-ia-qui-veut-reinventer-le-developpement-logiciel/455694"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Lire l'article Cursor vs VS Code sur FrenchWeb.fr">
+                            <div class="article__media">
+                                <img src="assets/veille-ide.jpg" alt="" loading="lazy"
+                                    onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/veille-ide.svg';}else{this.parentElement.classList.add('article__media--missing');this.remove();}">
+                                <span class="article__media-icon" aria-hidden="true">
+                                    <i class="ph ph-terminal-window"></i>
+                                </span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Étape 2 (BTS) -->
-                <div class="relative group">
-                    <div
-                        class="absolute -left-[45px] top-1.5 w-6 h-6 bg-dark border-4 border-accent rounded-full group-hover:scale-125 group-hover:bg-accent transition-all duration-300">
-                    </div>
-                    <div
-                        class="bg-card/50 p-6 rounded-2xl border border-gray-800 hover:border-accent/50 transition-colors shadow-lg">
-                        <span
-                            class="text-accent font-bold text-sm bg-accent/10 px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center">
-                            <i class="fas fa-laptop-code mr-2"></i> 2024 - 2026
-                        </span>
-                        <h3 class="text-xl font-bold mt-4 text-white">BTS SIO - Option SLAM</h3>
-                        <h4 class="text-md text-gray-300 font-medium">CFA Trajectoire</h4>
-                        <p class="text-gray-400 mt-2">
-                            Formation axée sur le développement d'applications métiers (C#, PHP, Java) et la gestion de
-                            bases de données (SQL). Réalisation de nombreux projets pratiques.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Étape 1 (Bac) -->
-                <div class="relative group">
-                    <div
-                        class="absolute -left-[45px] top-1.5 w-6 h-6 bg-dark border-4 border-gray-500 rounded-full group-hover:scale-125 group-hover:bg-gray-500 transition-all duration-300">
-                    </div>
-                    <div
-                        class="bg-card/50 p-6 rounded-2xl border border-gray-800 hover:border-gray-500 transition-colors shadow-lg opacity-80">
-                        <span
-                            class="text-gray-400 font-bold text-sm bg-gray-800 px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center">
-                            <i class="fas fa-graduation-cap mr-2"></i> 2024
-                        </span>
-                        <h3 class="text-xl font-bold mt-4 text-white">Baccalauréat Général</h3>
-                        <h4 class="text-md text-gray-400 font-medium whitespace-pre-wrap">Lycée Louis-Bascan</h4>
-                        <p class="text-gray-500 mt-2 text-sm italic">
-                            Spécialités Maths & NSI (Spécialité Physique abandonnée en 1ère). <br>
-                            Section Européenne Anglais.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Compétences -->
-    <section id="competences" class="py-24 bg-card/40 border-t border-b border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold">Mes <span class="text-brand">Compétences</span></h2>
-                <div class="w-16 h-1 bg-accent mx-auto mt-4 rounded"></div>
-                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
-                    Aperçu des technologies et langages clés que j'étudie et maîtrise pour développer des applications
-                    performantes.
-                </p>
-            </div>
-
-            <!-- Grille des langages -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 lg:grid-cols-6 gap-6 lg:gap-8 justify-center items-center">
-
-                <!-- Python -->
-                <div
-                    class="flex flex-col items-center justify-center p-6 bg-card rounded-2xl shadow-xl border border-[#3776AB]/30 hover:border-[#3776AB] transition-all duration-300 hover:-translate-y-2 group cursor-default hover:shadow-[0_0_20px_rgba(55,118,171,0.6)]">
-                    <div
-                        class="w-16 h-16 flex items-center justify-center bg-[#3776AB]/10 rounded-full mb-4 group-hover:bg-[#3776AB]/20 transition-colors">
-                        <i
-                            class="fa-brands fa-python text-4xl text-[#3776AB] drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(55,118,171,0.9)] transition-all"></i>
-                    </div>
-                    <span
-                        class="font-bold text-white tracking-wide group-hover:text-[#3776AB] group-hover:drop-shadow-[0_0_10px_rgba(55,118,171,0.8)] transition-all">Python</span>
-                </div>
-
-                <!-- TypeScript -->
-                <div
-                    class="flex flex-col items-center justify-center p-6 bg-card rounded-2xl shadow-xl border border-[#3178C6]/30 hover:border-[#3178C6] transition-all duration-300 hover:-translate-y-2 group cursor-default hover:shadow-[0_0_20px_rgba(49,120,198,0.6)]">
-                    <div
-                        class="w-16 h-16 flex items-center justify-center bg-[#3178C6]/10 rounded-full mb-4 group-hover:bg-[#3178C6]/20 transition-colors">
-                        <span
-                            class="text-2xl font-black font-sans text-[#3178C6] transition-colors border-2 border-[#3178C6] group-hover:border-[#3178C6] px-2 py-1 rounded drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(49,120,198,0.9)]">TS</span>
-                    </div>
-                    <span
-                        class="font-bold text-white tracking-wide group-hover:text-[#3178C6] group-hover:drop-shadow-[0_0_10px_rgba(49,120,198,0.8)] transition-all">TypeScript</span>
-                </div>
-
-                <!-- HTML / CSS -->
-                <div
-                    class="flex flex-col items-center justify-center p-6 bg-card rounded-2xl shadow-xl border border-[#E34F26]/30 hover:border-[#1572B6] transition-all duration-300 hover:-translate-y-2 group cursor-default hover:shadow-[0_0_20px_rgba(21,114,182,0.6)]">
-                    <div
-                        class="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-[#E34F26]/10 to-[#1572B6]/10 rounded-full mb-4 group-hover:from-[#E34F26]/20 group-hover:to-[#1572B6]/20 transition-colors">
-                        <i
-                            class="fa-brands fa-html5 text-3xl text-[#E34F26] mr-1.5 transition-colors drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(227,79,38,0.9)]"></i>
-                        <i
-                            class="fa-brands fa-css3-alt text-3xl text-[#1572B6] transition-colors drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(21,114,182,0.9)]"></i>
-                    </div>
-                    <span
-                        class="font-bold text-white tracking-wide text-center group-hover:text-[#1572B6] group-hover:drop-shadow-[0_0_10px_rgba(21,114,182,0.8)] transition-all">HTML
-                        / CSS</span>
-                </div>
-
-                <!-- JavaScript -->
-                <div
-                    class="flex flex-col items-center justify-center p-6 bg-card rounded-2xl shadow-xl border border-[#F7DF1E]/30 hover:border-[#F7DF1E] transition-all duration-300 hover:-translate-y-2 group cursor-default hover:shadow-[0_0_20px_rgba(247,223,30,0.6)]">
-                    <div
-                        class="w-16 h-16 flex items-center justify-center bg-[#F7DF1E]/10 rounded-full mb-4 group-hover:bg-[#F7DF1E]/20 transition-colors">
-                        <i
-                            class="fa-brands fa-js-square text-4xl text-[#F7DF1E] transition-colors drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(247,223,30,0.9)]"></i>
-                    </div>
-                    <span
-                        class="font-bold text-white tracking-wide group-hover:text-[#F7DF1E] group-hover:drop-shadow-[0_0_10px_rgba(247,223,30,0.8)] transition-all">JavaScript</span>
-                </div>
-
-                <!-- PHP -->
-                <div
-                    class="flex flex-col items-center justify-center p-6 bg-card rounded-2xl shadow-xl border border-[#777BB4]/30 hover:border-[#777BB4] transition-all duration-300 hover:-translate-y-2 group cursor-default hover:shadow-[0_0_20px_rgba(119,123,180,0.6)]">
-                    <div
-                        class="w-16 h-16 flex items-center justify-center bg-[#777BB4]/10 rounded-full mb-4 group-hover:bg-[#777BB4]/20 transition-colors">
-                        <i
-                            class="fa-brands fa-php text-4xl text-[#777BB4] transition-colors drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(119,123,180,0.9)]"></i>
-                    </div>
-                    <span
-                        class="font-bold text-white tracking-wide group-hover:text-[#777BB4] group-hover:drop-shadow-[0_0_10px_rgba(119,123,180,0.8)] transition-all">PHP</span>
-                </div>
-
-                <!-- SQL -->
-                <div
-                    class="flex flex-col items-center justify-center p-6 bg-card rounded-2xl shadow-xl border border-[#F29111]/30 hover:border-[#F29111] transition-all duration-300 hover:-translate-y-2 group cursor-default hover:shadow-[0_0_20px_rgba(242,145,17,0.6)]">
-                    <div
-                        class="w-16 h-16 flex items-center justify-center bg-[#F29111]/10 rounded-full mb-4 group-hover:bg-[#F29111]/20 transition-colors">
-                        <i
-                            class="fa-solid fa-database text-3xl text-[#F29111] transition-colors drop-shadow-md group-hover:drop-shadow-[0_0_15px_rgba(242,145,17,0.9)]"></i>
-                    </div>
-                    <span
-                        class="font-bold text-white tracking-wide group-hover:text-[#F29111] group-hover:drop-shadow-[0_0_10px_rgba(242,145,17,0.8)] transition-all">SQL</span>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Section: Projets -->
-    <section id="projets" class="py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold">Mes <span class="text-accent">Projets</span></h2>
-                <div class="w-16 h-1 bg-brand mx-auto mt-4 rounded"></div>
-                <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Sélection de projets réalisés dans le cadre du BTS SIO
-                    SLAM ou durant mon temps libre.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Projet Patrimonia -->
-                <div
-                    class="bg-card rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-brand/40 transition-all duration-300 group flex flex-col">
-                    <div class="relative overflow-hidden aspect-video">
-                        <img src="Patrimonia.png"
-                            alt="Patrimonia"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-90">
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold mb-2 text-white">Patrimonia</h3>
-                        <p class="text-gray-400 mb-4 text-sm leading-relaxed flex-1">
-                            Application full-stack de gestion de patrimoine. Suivi d'actifs, tableau de bord interactif avec graphiques, simulateur d'intérêts et authentification sécurisée.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#61DAFB]">React</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#339933]">Node.js</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#003B57]">SQLite</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#38BDF8]">Tailwind CSS</span>
-                        </div>
-                        <a href="https://github.com/amory-danvy/Patrimonia" target="_blank"
-                            class="inline-flex items-center justify-center w-full py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm font-semibold text-white transition-colors">
-                            <i class="fab fa-github mr-2 text-lg"></i> Voir sur GitHub
+                            <div class="article__body">
+                                <p class="article__cat">// ide ai-native</p>
+                                <h3 class="article__title">
+                                    Cursor vs VS Code : la montée des éditeurs natifs IA
+                                </h3>
+                                <p class="article__source">
+                                    <i class="ph ph-newspaper-clipping" aria-hidden="true"></i>
+                                    <span>FrenchWeb.fr</span>
+                                </p>
+                                <blockquote class="article__quote">
+                                    <p>
+                                        « Cursor n'est pas une simple extension mais un environnement repensé où
+                                        l'IA est structurelle. L'outil <em>"augmente"</em> le développeur sans
+                                        sacrifier le contrôle, s'éloignant du simple <em>"vibe coding"</em> pour
+                                        offrir une assistance précise et contextuelle. »
+                                    </p>
+                                    <cite class="article__cite">— mon analyse</cite>
+                                </blockquote>
+                                <span class="article__action">
+                                    <span>Lire l'article source</span>
+                                    <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </div>
                         </a>
-                    </div>
-                </div>
-                <!-- Projet 1 -->
-                <div
-                    class="bg-card rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-brand/40 transition-all duration-300 group flex flex-col">
-                    <div class="relative overflow-hidden aspect-video">
-                        <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=800&q=80"
-                            alt="Générateur de CV"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-90">
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold mb-2 text-white">Générateur de CV Dynamique</h3>
-                        <p class="text-gray-400 mb-4 text-sm leading-relaxed flex-1">
-                            Application web complète pour créer et gérer des CV professionnels. Inscription sécurisée,
-                            tableau de bord, choix de thèmes (Standard, Blue, Dark) et export PDF simplifié.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-brand">Python</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-red-500">HTML5</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-accent">CSS3</span>
-                        </div>
-                        <a href="https://github.com/amory-danvy/Projet1_bts" target="_blank"
-                            class="inline-flex items-center justify-center w-full py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm font-semibold text-white transition-colors">
-                            <i class="fab fa-github mr-2 text-lg"></i> Voir sur GitHub
-                        </a>
-                    </div>
-                </div>
+                    </li>
 
-                <!-- Projet 2 -->
-                <div
-                    class="bg-card rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-brand/40 transition-all duration-300 group flex flex-col">
-                    <div class="relative overflow-hidden aspect-video">
-                        <img src="https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=800&q=80"
-                            alt="NewsHunter Tweet Fetcher"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-90">
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold mb-2 text-white">NewsHunter - Tweet Fetcher</h3>
-                        <p class="text-gray-400 mb-4 text-sm leading-relaxed flex-1">
-                            Script d'automatisation Python exploitant l'API Twitter (X) via Tweepy pour extraire,
-                            filtrer et archiver les flux de données en temps réel. Outil conçu pour la veille
-                            automatisée.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-brand">Python</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-blue-400">Tweepy
-                                (API X)</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-orange-400">Automation</span>
-                        </div>
-                        <a href="https://github.com/amory-danvy/newshunter_twitter/tree/main/NewsHunter2"
-                            target="_blank"
-                            class="inline-flex items-center justify-center w-full py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm font-semibold text-white transition-colors">
-                            <i class="fab fa-github mr-2 text-lg"></i> Voir sur GitHub
+                    <!-- Article 02 — Sécurité & IA -->
+                    <li>
+                        <a class="article"
+                            href="https://www.cio-online.com/actualites/lire-l-ia-degrade-la-securite-du-code-et-divulgue-trop-de-secrets-d-identification-16285.html"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Lire l'article Sécurité 40% sur CIO-online.com">
+                            <div class="article__media">
+                                <img src="assets/veille-securite.jpg" alt="" loading="lazy"
+                                    onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/veille-securite.svg';}else{this.parentElement.classList.add('article__media--missing');this.remove();}">
+                                <span class="article__media-icon" aria-hidden="true">
+                                    <i class="ph ph-shield-check"></i>
+                                </span>
+                            </div>
+                            <div class="article__body">
+                                <p class="article__cat">// sécurité &amp; ia</p>
+                                <h3 class="article__title">
+                                    Sécurité : pourquoi 40 % du code IA contient des failles ?
+                                </h3>
+                                <p class="article__source">
+                                    <i class="ph ph-newspaper-clipping" aria-hidden="true"></i>
+                                    <span>CIO-online.com</span>
+                                </p>
+                                <blockquote class="article__quote">
+                                    <p>
+                                        « L'usage des assistants IA augmente de 40 % le risque de fuite de
+                                        <em>"secrets"</em> (clés API, mots de passe). L'article rappelle que le
+                                        code généré doit être traité comme celui d'un stagiaire : une supervision
+                                        humaine stricte est impérative pour éviter les failles systémiques. »
+                                    </p>
+                                    <cite class="article__cite">— mon analyse</cite>
+                                </blockquote>
+                                <span class="article__action">
+                                    <span>Lire l'article source</span>
+                                    <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </div>
                         </a>
-                    </div>
-                </div>
+                    </li>
 
-                <!-- Projet 3 -->
-                <div
-                    class="bg-card rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-brand/40 transition-all duration-300 group flex flex-col">
-                    <div class="relative overflow-hidden aspect-video">
-                        <img src="vintedboost-preview.png" alt="VintedBoost - Dashboard IA"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-90">
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold mb-2 text-white">VintedBoost - IA & Automatisation</h3>
-                        <p class="text-gray-400 mb-4 text-sm leading-relaxed flex-1">
-                            Grâce à l'IA, prenez simplement une photo de votre article : l'outil génère instantanément
-                            un prix conseillé, une description optimisée et des hashtags pertinents. Un gain de temps
-                            considérable pour les vendeurs.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-teal-400">Next.js</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-blue-400">TypeScript</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-sky-400">Tailwind
-                                CSS</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-pink-400">Lucide
-                                React</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-orange-400">PWA</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-brand">Gemini
-                                Vision</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-accent">Convex</span>
-                        </div>
-                        <div
-                            class="flex items-center justify-center w-full py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-sm font-semibold text-gray-400 cursor-not-allowed">
-                            <i class="fas fa-lock mr-2 text-lg"></i> Solution Privée
-                        </div>
-                    </div>
-                </div>
+                    <!-- Article 03 — Automatisation -->
+                    <li>
+                        <a class="article"
+                            href="https://ittestgroup.com/conseils-actualites/les-ai-agents-en-automatisation-de-tests/"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Lire l'article AI Agents en automatisation de tests sur ittestgroup.com">
+                            <div class="article__media">
+                                <img src="assets/veille-automatisation.jpg" alt="" loading="lazy"
+                                    onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/veille-automatisation.svg';}else{this.parentElement.classList.add('article__media--missing');this.remove();}">
+                                <span class="article__media-icon" aria-hidden="true">
+                                    <i class="ph ph-gear-six"></i>
+                                </span>
+                            </div>
+                            <div class="article__body">
+                                <p class="article__cat">// automatisation</p>
+                                <h3 class="article__title">
+                                    L'automatisation des tests avec les agents IA
+                                </h3>
+                                <p class="article__source">
+                                    <i class="ph ph-newspaper-clipping" aria-hidden="true"></i>
+                                    <span>ittestgroup.com</span>
+                                </p>
+                                <blockquote class="article__quote">
+                                    <p>
+                                        « Les AI Agents introduisent le concept de <em>"self-healing tests"</em> :
+                                        ils s'adaptent seuls aux changements d'interface. Cette autonomie réduit
+                                        drastiquement la maintenance des scripts classiques et accélère le
+                                        Time-to-Market. »
+                                    </p>
+                                    <cite class="article__cite">— mon analyse</cite>
+                                </blockquote>
+                                <span class="article__action">
+                                    <span>Lire l'article source</span>
+                                    <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section: Tableau de Synthèse -->
-    <section id="synthese" class="py-16 bg-card/20 border-t border-gray-800/50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-4">Tableau de <span class="text-brand">Synthèse</span></h2>
-            <div class="w-16 h-1 bg-accent mx-auto mt-4 mb-8 rounded"></div>
-            <p class="text-gray-400 mb-8 text-lg">
-                Consultez mon tableau de synthèse récapitulant les compétences mises en œuvre durant ma formation.
-            </p>
-            <a href="Tableau_Synthese.pdf" target="_blank"
-                class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-brand to-accent hover:from-purple-500 hover:to-blue-500 text-white rounded-full font-bold text-lg transition-transform transform hover:scale-105 shadow-lg shadow-brand/25">
-                <i class="fas fa-file-pdf mr-3 text-xl"></i> Ouvrir le Tableau de Synthèse
-            </a>
-        </div>
-    </section>
+        <!-- ============================================== -->
+        <!-- SECTION 8 — CONTACT                             -->
+        <!-- ============================================== -->
+        <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">07 / contact</p>
+                    <h2 class="section__title" id="contact-title">Travaillons ensemble</h2>
+                    <p class="section__lead">
+                        Je suis ouvert à toute opportunité d'alternance ou d'échange autour du développement et
+                        de l'IA agentique. Le plus rapide pour me joindre :
+                    </p>
+                </header>
 
-    <!-- Section: Veille Technologique -->
-    <section id="veille" class="py-24 bg-card/40 border-t border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 flex flex-col items-center text-center">
-                <h2 class="text-3xl md:text-4xl font-bold">Veille Technologique : <span class="text-brand">Les
-                        assistants de codage (IA Générative)</span></h2>
-                <div class="w-16 h-1 bg-accent mt-4 mb-6 rounded"></div>
-                <p class="text-gray-400 max-w-3xl text-lg leading-relaxed mb-10">
-                    J'étudie l'évolution de GitHub Copilot, Cursor, claude code et Antigravity pour comprendre comment
-                    ces assistants
-                    de codage transforment notre métier. L'enjeu est de déterminer si ces outils visent à remplacer le
-                    développeur ou s'ils redéfinissent simplement sa manière de debugger et de concevoir des
-                    applications.
-                </p>
-
-                <!-- Zone Outils & Sources -->
-                <div class="flex flex-col items-center mt-4">
-                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">Mes outils de veille
-                    </h3>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <span
-                            class="flex items-center gap-2 px-5 py-2.5 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium text-gray-300 hover:text-white hover:border-brand/50 transition-colors shadow-lg">
-                            <i class="fas fa-rss text-green-500 text-lg"></i> Feedly
-                        </span>
-                        <span
-                            class="flex items-center gap-2 px-5 py-2.5 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium text-gray-300 hover:text-white hover:border-brand/50 transition-colors shadow-lg">
-                            <i class="fab fa-dev text-white text-xl"></i> Dev.to
-                        </span>
-                        <span
-                            class="flex items-center gap-2 px-5 py-2.5 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium text-gray-300 hover:text-white hover:border-brand/50 transition-colors shadow-lg">
-                            <i class="fab fa-hacker-news text-[#ff6600] text-xl"></i> Hacker News
-                        </span>
-                        <span
-                            class="flex items-center gap-2 px-5 py-2.5 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium text-gray-300 hover:text-white hover:border-brand/50 transition-colors shadow-lg">
-                            <i class="fab fa-github text-gray-400 text-xl"></i> GitHub Trending
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Grille des articles/veille -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                <!-- Sujet 1 -->
-                <article
-                    class="bg-card rounded-2xl p-6 border border-gray-800 hover:border-brand/40 transition-colors shadow-lg flex flex-col h-full group">
-                    <span
-                        class="text-xs font-bold px-3 py-1 bg-brand/20 text-brand rounded-full self-start mb-4 uppercase tracking-wider">IDE
-                        AI-Native</span>
-
-                    <h3 class="text-xl font-bold mb-3 text-white group-hover:text-brand transition-colors">Cursor vs VS
-                        Code : La montée des éditeurs natifs IA</h3>
-
-                    <div class="text-gray-500 text-sm mb-6 flex items-center font-medium">
-                        <i class="far fa-newspaper mr-2"></i> Lu sur FrenchWeb.fr
-                    </div>
-
-                    <div class="bg-dark/60 border-l-4 border-brand p-4 rounded-r-xl mb-6 flex-grow shadow-inner">
-                        <h4 class="text-sm font-bold text-gray-300 mb-2 flex items-center"><i
-                                class="fas fa-microscope text-brand mr-2"></i>Mon analyse :</h4>
-                        <p class="text-gray-400 text-sm italic leading-relaxed">
-                            "Cursor n'est pas une simple extension mais un environnement repensé où l'IA est
-                            structurelle. L'article souligne que l'outil 'augmente' le développeur sans sacrifier le
-                            contrôle, s'éloignant du simple 'vibe coding' pour offrir une assistance précise et
-                            contextuelle."
-                        </p>
-                    </div>
-
-                    <div class="mt-auto">
-                        <a href="https://www.frenchweb.fr/connaissez-vous-cursor-lediteur-de-code-ia-qui-veut-reinventer-le-developpement-logiciel/455694"
-                            target="_blank"
-                            class="flex items-center justify-center w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700 rounded-xl text-sm font-bold transition-colors">
-                            <i class="fas fa-external-link-alt mr-2"></i> Lire l'article source
+                <ul class="contact" role="list">
+                    <li>
+                        <a class="contact__link" href="https://www.linkedin.com/in/amory-danvy/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Profil LinkedIn d'Amory Danvy">
+                            <i class="ph ph-linkedin-logo" aria-hidden="true"></i>
+                            <span class="contact__label">linkedin.com/in/amory-danvy</span>
+                            <i class="ph ph-arrow-up-right contact__arrow" aria-hidden="true"></i>
                         </a>
-                    </div>
-                </article>
-
-                <!-- Sujet 2 -->
-                <article
-                    class="bg-card rounded-2xl p-6 border border-gray-800 hover:border-accent/40 transition-colors shadow-lg flex flex-col h-full group">
-                    <span
-                        class="text-xs font-bold px-3 py-1 bg-accent/20 text-accent rounded-full self-start mb-4 uppercase tracking-wider">Sécurité
-                        & IA</span>
-
-                    <h3 class="text-xl font-bold mb-3 text-white group-hover:text-accent transition-colors">Sécurité :
-                        Pourquoi 40% du code IA contient des failles ?</h3>
-
-                    <div class="text-gray-500 text-sm mb-6 flex items-center font-medium">
-                        <i class="far fa-newspaper mr-2"></i> Lu sur CIO-online.com
-                    </div>
-
-                    <div class="bg-dark/60 border-l-4 border-accent p-4 rounded-r-xl mb-6 flex-grow shadow-inner">
-                        <h4 class="text-sm font-bold text-gray-300 mb-2 flex items-center"><i
-                                class="fas fa-microscope text-accent mr-2"></i>Mon analyse :</h4>
-                        <p class="text-gray-400 text-sm italic leading-relaxed">
-                            "L'usage des assistants IA augmente de 40% le risque de fuite de 'secrets' (clés API, mots
-                            de passe). L'article de CIO-online rappelle que le code généré doit être traité comme celui
-                            d'un stagiaire : une supervision humaine stricte est impérative pour éviter les failles
-                            systémiques."
-                        </p>
-                    </div>
-
-                    <div class="mt-auto">
-                        <a href="https://www.cio-online.com/actualites/lire-l-ia-degrade-la-securite-du-code-et-divulgue-trop-de-secrets-d-identification-16285.html"
-                            target="_blank"
-                            class="flex items-center justify-center w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700 rounded-xl text-sm font-bold transition-colors">
-                            <i class="fas fa-external-link-alt mr-2"></i> Lire l'article source
+                    </li>
+                    <li>
+                        <a class="contact__link" href="https://github.com/amory-danvy" target="_blank"
+                            rel="noopener noreferrer" aria-label="Profil GitHub d'Amory Danvy">
+                            <i class="ph ph-github-logo" aria-hidden="true"></i>
+                            <span class="contact__label">github.com/amory-danvy</span>
+                            <i class="ph ph-arrow-up-right contact__arrow" aria-hidden="true"></i>
                         </a>
-                    </div>
-                </article>
-
-                <!-- Sujet 3 -->
-                <article
-                    class="bg-card rounded-2xl p-6 border border-gray-800 hover:border-green-500/40 transition-colors shadow-lg flex flex-col h-full group">
-                    <span
-                        class="text-xs font-bold px-3 py-1 bg-green-500/20 text-green-400 rounded-full self-start mb-4 uppercase tracking-wider">Automatisation</span>
-
-                    <h3 class="text-xl font-bold mb-3 text-white group-hover:text-green-400 transition-colors">
-                        L'automatisation des tests avec les agents IA</h3>
-
-                    <div class="text-gray-500 text-sm mb-6 flex items-center font-medium">
-                        <i class="far fa-newspaper mr-2"></i> Lu sur ittestgroup.com
-                    </div>
-
-                    <div class="bg-dark/60 border-l-4 border-green-500 p-4 rounded-r-xl mb-6 flex-grow shadow-inner">
-                        <h4 class="text-sm font-bold text-gray-300 mb-2 flex items-center"><i
-                                class="fas fa-microscope text-green-500 mr-2"></i>Mon analyse :</h4>
-                        <p class="text-gray-400 text-sm italic leading-relaxed">
-                            "Les AI Agents introduisent le concept de 'self-healing tests' : ils s'adaptent seuls aux
-                            changements d'interface. Cette autonomie réduit drastiquement la maintenance lourde des
-                            scripts classiques et accélère la mise sur le marché (Time-to-Market)."
-                        </p>
-                    </div>
-
-                    <div class="mt-auto">
-                        <a href="https://ittestgroup.com/conseils-actualites/les-ai-agents-en-automatisation-de-tests/"
-                            target="_blank"
-                            class="flex items-center justify-center w-full py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700 rounded-xl text-sm font-bold transition-colors">
-                            <i class="fas fa-external-link-alt mr-2"></i> Lire l'article source
-                        </a>
-                    </div>
-                </article>
-
+                    </li>
+                </ul>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section: Contact (Refaite avec gros boutons sociaux) -->
-    <section id="contact" class="py-24 border-t border-gray-800/50 bg-dark relative">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-brand/5 pointer-events-none"></div>
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4">Retrouvez-moi sur les <span
-                    class="text-accent">réseaux</span></h2>
-            <div class="w-16 h-1 bg-brand mx-auto mb-10 rounded"></div>
-
-            <p class="text-gray-400 mb-12 text-lg max-w-2xl mx-auto">
-                Vous souhaitez discuter d'un projet, consulter mon code source ou simplement échanger sur une
-                opportunité ? Consultez mes profils professionnels.
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-10">
-                <!-- Gros Bouton LinkedIn -->
-                <a href="https://www.linkedin.com/in/amory-danvy/" target="_blank"
-                    class="w-full sm:w-auto group relative flex items-center justify-center px-10 py-6 bg-[#0A66C2]/10 hover:bg-[#0A66C2] border border-[#0A66C2]/50 hover:border-[#0A66C2] rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#0A66C2]/40 hover:-translate-y-2">
-                    <i
-                        class="fab fa-linkedin text-4xl text-[#0A66C2] group-hover:text-white mr-5 transition-colors"></i>
-                    <div class="text-left">
-                        <span
-                            class="block text-xl font-bold text-[#0A66C2] group-hover:text-white transition-colors">LinkedIn</span>
-                        <span
-                            class="block text-xs text-[#0A66C2]/70 group-hover:text-white/80 transition-colors font-medium">Connectons-nous
-                            pro</span>
-                    </div>
-                </a>
-
-                <!-- Gros Bouton GitHub -->
-                <a href="https://github.com/amory-danvy" target="_blank"
-                    class="w-full sm:w-auto group relative flex items-center justify-center px-10 py-6 bg-gray-800 hover:bg-white border border-gray-700 hover:border-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-white/30 hover:-translate-y-2">
-                    <i class="fab fa-github text-4xl text-white group-hover:text-gray-900 mr-5 transition-colors"></i>
-                    <div class="text-left">
-                        <span
-                            class="block text-xl font-bold text-white group-hover:text-gray-900 transition-colors">GitHub</span>
-                        <span
-                            class="block text-xs text-gray-400 group-hover:text-gray-600 transition-colors font-medium">Explorez
-                            mon code</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="py-10 bg-card border-t border-gray-800 text-center">
-        <p class="text-gray-500 text-sm font-medium">
-            &copy; 2026 Amory Danvy. Tous droits réservés. <br>
-            Construit avec passion | BTS SIO SLAM
-        </p>
-
-        <!-- Script pour le scroll menu mobile -->
-        <script>
-            const btn = document.getElementById('mobile-menu-button');
-            const menu = document.getElementById('mobile-menu');
-
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
-            });
-
-            // Fermer le menu au clic sur un lien
-            const links = menu.querySelectorAll('a');
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    menu.classList.add('hidden');
-                });
-            });
-        </script>
+    <footer class="footer">
+        <div class="footer__inner">
+            <p class="footer__copy">© 2026 Amory Danvy · BTS SIO SLAM</p>
+            <p class="footer__build" aria-hidden="true">build · 2026.04.28</p>
+        </div>
     </footer>
 
+    <!-- Lenis smooth scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="script.js?v=2026.04.28" defer></script>
 </body>
 
 </html>

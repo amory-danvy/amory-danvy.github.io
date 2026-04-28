@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Engrenages mécaniques imbriqués">
+  <rect width="1600" height="1000" fill="#0F1419"/>
+  <defs>
+    <pattern id="auto-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1F2733" stroke-width="1"/>
+    </pattern>
+    <!-- gear teeth via stroke + dasharray -->
+  </defs>
+  <rect width="1600" height="1000" fill="url(#auto-grid)"/>
+
+  <!-- corner brackets -->
+  <g stroke="#4F8FFF" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M 60 100 L 60 60 L 100 60"/>
+    <path d="M 1500 60 L 1540 60 L 1540 100"/>
+    <path d="M 60 900 L 60 940 L 100 940"/>
+    <path d="M 1500 940 L 1540 940 L 1540 900"/>
+  </g>
+
+  <!-- Big gear (left, 12 teeth) -->
+  <g transform="translate(640, 500)">
+    <!-- gear teeth: 12 small rects rotated around center -->
+    <g fill="#4F8FFF">
+      <g transform="rotate(0)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(30)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(60)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(90)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(120)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(150)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(180)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(210)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(240)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(270)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(300)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+      <g transform="rotate(330)"><rect x="-12" y="-220" width="24" height="40" rx="2"/></g>
+    </g>
+    <!-- gear ring -->
+    <circle cx="0" cy="0" r="180" fill="#161C24" stroke="#4F8FFF" stroke-width="3"/>
+    <circle cx="0" cy="0" r="160" fill="none" stroke="#2A3440" stroke-width="1"/>
+    <!-- inner hub -->
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#4F8FFF" stroke-width="2"/>
+    <circle cx="0" cy="0" r="14" fill="#4F8FFF"/>
+    <!-- spokes -->
+    <g stroke="#2A3440" stroke-width="3">
+      <line x1="0" y1="-150" x2="0" y2="-72"/>
+      <line x1="0" y1="150" x2="0" y2="72"/>
+      <line x1="-150" y1="0" x2="-72" y2="0"/>
+      <line x1="150" y1="0" x2="72" y2="0"/>
+    </g>
+  </g>
+
+  <!-- Smaller gear (right, 8 teeth) -->
+  <g transform="translate(1100, 380)">
+    <g fill="#8A929C">
+      <g transform="rotate(0)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(45)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(90)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(135)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(180)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(225)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(270)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+      <g transform="rotate(315)"><rect x="-9" y="-150" width="18" height="28" rx="2"/></g>
+    </g>
+    <circle cx="0" cy="0" r="122" fill="#161C24" stroke="#8A929C" stroke-width="2"/>
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#8A929C" stroke-width="2"/>
+    <circle cx="0" cy="0" r="10" fill="#8A929C"/>
+  </g>
+
+  <!-- mono captions -->
+  <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="14" fill="#8A929C">
+    <text x="60" y="40" letter-spacing="0.04em">// pipeline.auto</text>
+    <text x="60" y="980" letter-spacing="0.04em">[ veille / 03 ]</text>
+    <text x="1540" y="980" text-anchor="end" letter-spacing="0.04em">tests · self-healing</text>
+  </g>
+</svg>
