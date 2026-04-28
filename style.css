@@ -653,7 +653,7 @@ dd {
    ---------------------------------------------------------- */
 .projects {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-6);
 }
 
@@ -851,17 +851,8 @@ dd {
   color: var(--primary);
 }
 
-@media (max-width: 960px) {
-  .projects {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 600px) {
-  .projects {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
+/* La grille des projets utilise auto-fit dès 280px — pas besoin de media queries
+   séparées ; elle passe automatiquement 4 → 3 → 2 → 1 colonnes selon la largeur. */
 
 
 /* ----------------------------------------------------------
@@ -1284,6 +1275,111 @@ dd {
   .skill__name { grid-column: 2; grid-row: 1; }
   .skill__level { grid-column: 3; grid-row: 1; }
   .skill__bar { grid-column: 1 / -1; grid-row: 2; }
+}
+
+
+/* ----------------------------------------------------------
+   8e-bis. TABLEAU DE SYNTHÈSE (document card)
+   ---------------------------------------------------------- */
+.document {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: inherit;
+  max-width: 720px;
+  transition: border-color var(--t-mid) var(--ease),
+              transform var(--t-mid) var(--ease);
+}
+
+.document:hover,
+.document:focus-visible {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.document__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--primary);
+  font-size: 32px;
+  transition: border-color var(--t-fast) var(--ease);
+}
+
+.document:hover .document__icon,
+.document:focus-visible .document__icon {
+  border-color: var(--primary);
+}
+
+.document__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.document__type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+}
+
+.document__name {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  word-break: break-all;
+}
+
+.document__sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: var(--space-1);
+}
+
+.document__arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: 20px;
+  color: var(--fg-muted);
+  transition: color var(--t-fast) var(--ease),
+              transform var(--t-fast) var(--ease);
+}
+
+.document:hover .document__arrow,
+.document:focus-visible .document__arrow {
+  color: var(--primary);
+  transform: translate(3px, -3px);
+}
+
+@media (max-width: 480px) {
+  .document {
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  .document__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+  .document__arrow {
+    margin-left: 0;
+  }
 }
 
 

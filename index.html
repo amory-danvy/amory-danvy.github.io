@@ -9,59 +9,20 @@
         content="Portfolio d'Amory Danvy, étudiant BTS SIO SLAM, alternant chez Siccardi Tech Leads. Développeur spécialisé en IA agentique : Python, TypeScript, automatisation.">
     <meta name="theme-color" content="#0F1419">
 
-<body class="bg-dark text-white antialiased selection:bg-brand selection:text-white">
-
-    <!-- Navbar -->
-    <nav id="navbar"
-        class="fixed w-full z-50 transition-all duration-300 bg-dark/80 backdrop-blur-md border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Nom / Logo -->
-                <a href="#"
-                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand to-accent tracking-tight">
-                    Amory Danvy
-                </a>
-
-                <!-- Menu Desktop -->
-                <div class="hidden lg:flex space-x-6 items-center text-sm">
-                    <a href="#accueil" class="hover:text-brand transition-colors font-medium">Accueil</a>
-                    <a href="#apropos" class="hover:text-brand transition-colors font-medium">À Propos</a>
-                    <a href="#parcours" class="hover:text-brand transition-colors font-medium">Parcours</a>
-                    <a href="#competences" class="hover:text-brand transition-colors font-medium">Compétences</a>
-                    <a href="#projets" class="hover:text-brand transition-colors font-medium">Projets</a>
-                    <a href="#synthese" class="hover:text-brand transition-colors font-medium">Synthèse</a>
-                    <a href="#veille" class="hover:text-brand transition-colors font-medium">Veille</a>
-                    <a href="#contact" class="hover:text-brand transition-colors font-medium">Contact</a>
-                </div>
+    <!-- Open Graph -->
+    <meta property="og:title" content="Amory Danvy — Développeur en alternance, IA agentique">
+    <meta property="og:description"
+        content="Portfolio d'Amory Danvy. Python, TypeScript, IA agentique, automatisation.">
+    <meta property="og:type" content="website">
 
     <!-- Preconnect -->
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
 
-        <!-- Menu Mobile (Caché par défaut) -->
-        <div id="mobile-menu"
-            class="hidden lg:hidden bg-card border-b border-gray-800 shadow-xl max-h-screen overflow-y-auto">
-            <div class="px-4 py-4 space-y-2">
-                <a href="#accueil"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Accueil</a>
-                <a href="#apropos"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">À
-                    Propos</a>
-                <a href="#parcours"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Parcours</a>
-                <a href="#competences"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Compétences</a>
-                <a href="#projets"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Projets</a>
-                <a href="#synthese"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Synthèse</a>
-                <a href="#veille"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Veille</a>
-                <a href="#contact"
-                    class="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800 hover:text-brand transition-colors">Contact</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Geist via Fontshare -->
+    <link href="https://api.fontshare.com/v2/css?f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
+    <!-- JetBrains Mono via Bunny Fonts (privacy-respecting drop-in, NOT Google Fonts) -->
+    <link href="https://fonts.bunny.net/css?family=jetbrains-mono:400,500,700,800&display=swap" rel="stylesheet">
 
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
@@ -85,6 +46,7 @@
                 <li><a href="#apropos">À propos</a></li>
                 <li><a href="#parcours">Parcours</a></li>
                 <li><a href="#competences">Stack</a></li>
+                <li><a href="#synthese">Synthèse</a></li>
                 <li><a href="#veille">Veille</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -98,6 +60,7 @@
             <a href="#apropos">À propos</a>
             <a href="#parcours">Parcours</a>
             <a href="#competences">Stack</a>
+            <a href="#synthese">Synthèse</a>
             <a href="#veille">Veille</a>
             <a href="#contact">Contact</a>
         </div>
@@ -225,7 +188,37 @@
                         </a>
                     </li>
 
-                    <!-- Projet 02 — NewsHunter -->
+                    <!-- Projet 02 — Patrimonia -->
+                    <li class="project">
+                        <a class="project__card" href="https://github.com/amory-danvy/Patrimonia" target="_blank"
+                            rel="noopener noreferrer" aria-label="Voir le code de Patrimonia sur GitHub">
+                            <div class="project__media">
+                                <img class="project__img" src="Patrimonia.png" alt="Aperçu de Patrimonia"
+                                    loading="lazy">
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 02</p>
+                                <h3 class="project__title">Patrimonia</h3>
+                                <p class="project__desc">
+                                    Application full-stack de gestion de patrimoine : suivi d'actifs, dashboard
+                                    interactif avec graphiques, simulateur d'intérêts et authentification sécurisée.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>react</li>
+                                    <li>node.js</li>
+                                    <li>sqlite</li>
+                                    <li>tailwind</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+                                    <span class="project__action-label">github.com/amory-danvy/Patrimonia</span>
+                                    <i class="ph ph-arrow-up-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <!-- Projet 03 — NewsHunter -->
                     <li class="project">
                         <a class="project__card"
                             href="https://github.com/amory-danvy/newshunter_twitter/tree/main/NewsHunter2"
@@ -239,7 +232,7 @@
                                 </span>
                             </div>
                             <div class="project__body">
-                                <p class="project__index" aria-hidden="true">/ 02</p>
+                                <p class="project__index" aria-hidden="true">/ 03</p>
                                 <h3 class="project__title">NewsHunter — Tweet Fetcher</h3>
                                 <p class="project__desc">
                                     Script d'automatisation Python branché sur l'API X (Twitter) via Tweepy. Extrait,
@@ -260,7 +253,7 @@
                         </a>
                     </li>
 
-                    <!-- Projet 03 — VintedBoost (privé) -->
+                    <!-- Projet 04 — VintedBoost (privé) -->
                     <li class="project">
                         <article class="project__card project__card--locked"
                             aria-label="VintedBoost — solution privée, pas de code public disponible">
@@ -270,7 +263,7 @@
                                     alt="Capture du tableau de bord VintedBoost" loading="lazy">
                             </div>
                             <div class="project__body">
-                                <p class="project__index" aria-hidden="true">/ 03</p>
+                                <p class="project__index" aria-hidden="true">/ 04</p>
                                 <h3 class="project__title">VintedBoost — IA &amp; automatisation</h3>
                                 <p class="project__desc">
                                     Photo d'un article → prix conseillé, description optimisée et hashtags pertinents
@@ -343,62 +336,26 @@
                     </figure>
                 </div>
             </div>
+        </section>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Projet Patrimonia -->
-                <div
-                    class="bg-card rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-brand/40 transition-all duration-300 group flex flex-col">
-                    <div class="relative overflow-hidden aspect-video">
-                        <img src="Patrimonia.png"
-                            alt="Patrimonia"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-90">
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold mb-2 text-white">Patrimonia</h3>
-                        <p class="text-gray-400 mb-4 text-sm leading-relaxed flex-1">
-                            Application full-stack de gestion de patrimoine. Suivi d'actifs, tableau de bord interactif avec graphiques, simulateur d'intérêts et authentification sécurisée.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#61DAFB]">React</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#339933]">Node.js</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#003B57]">SQLite</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-[#38BDF8]">Tailwind CSS</span>
-                        </div>
-                        <a href="https://github.com/amory-danvy/Patrimonia" target="_blank"
-                            class="inline-flex items-center justify-center w-full py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm font-semibold text-white transition-colors">
-                            <i class="fab fa-github mr-2 text-lg"></i> Voir sur GitHub
-                        </a>
-                    </div>
-                </div>
-                <!-- Projet 1 -->
-                <div
-                    class="bg-card rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-brand/40 transition-all duration-300 group flex flex-col">
-                    <div class="relative overflow-hidden aspect-video">
-                        <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=800&q=80"
-                            alt="Générateur de CV"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-90">
-                        </div>
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col">
-                        <h3 class="text-xl font-bold mb-2 text-white">Générateur de CV Dynamique</h3>
-                        <p class="text-gray-400 mb-4 text-sm leading-relaxed flex-1">
-                            Application web complète pour créer et gérer des CV professionnels. Inscription sécurisée,
-                            tableau de bord, choix de thèmes (Standard, Blue, Dark) et export PDF simplifié.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-brand">Python</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-red-500">HTML5</span>
-                            <span
-                                class="px-2.5 py-1 bg-gray-800/80 text-xs font-semibold rounded-md border border-gray-700 text-accent">CSS3</span>
+        <!-- ============================================== -->
+        <!-- SECTION 4 — PARCOURS                            -->
+        <!-- ============================================== -->
+        <section class="section section--parcours" id="parcours" aria-labelledby="parcours-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">03 / parcours</p>
+                    <h2 class="section__title" id="parcours-title">Formation &amp; expérience</h2>
+                </header>
+
+                <ol class="timeline" role="list">
+
+                    <!-- Étape 01 — Apprenti Développeur -->
+                    <li class="timeline__item">
+                        <div class="timeline__rail">
+                            <span class="timeline__num" aria-hidden="true">01</span>
+                            <p class="timeline__date">2024 — en cours</p>
+                            <span class="timeline__tag">alternance</span>
                         </div>
                         <div class="timeline__content">
                             <h3 class="timeline__title">Apprenti Développeur</h3>
@@ -461,47 +418,29 @@
 
                 </ol>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section: Tableau de Synthèse -->
-    <section id="synthese" class="py-16 bg-card/20 border-t border-gray-800/50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-4">Tableau de <span class="text-brand">Synthèse</span></h2>
-            <div class="w-16 h-1 bg-accent mx-auto mt-4 mb-8 rounded"></div>
-            <p class="text-gray-400 mb-8 text-lg">
-                Consultez mon tableau de synthèse récapitulant les compétences mises en œuvre durant ma formation.
-            </p>
-            <a href="Tableau_Synthese.pdf" target="_blank"
-                class="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-brand to-accent hover:from-purple-500 hover:to-blue-500 text-white rounded-full font-bold text-lg transition-transform transform hover:scale-105 shadow-lg shadow-brand/25">
-                <i class="fas fa-file-pdf mr-3 text-xl"></i> Ouvrir le Tableau de Synthèse
-            </a>
-        </div>
-    </section>
+        <!-- ============================================== -->
+        <!-- SECTION 5 — COMPÉTENCES                         -->
+        <!-- ============================================== -->
+        <section class="section section--skills" id="competences" aria-labelledby="competences-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">04 / stack</p>
+                    <h2 class="section__title" id="competences-title">Langages &amp; technologies</h2>
+                    <p class="section__lead">
+                        Niveau honnête sur les langages que j'utilise au quotidien en alternance, en cours, ou sur
+                        mes projets perso.
+                    </p>
+                </header>
 
-    <!-- Section: Veille Technologique -->
-    <section id="veille" class="py-24 bg-card/40 border-t border-gray-800/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 flex flex-col items-center text-center">
-                <h2 class="text-3xl md:text-4xl font-bold">Veille Technologique : <span class="text-brand">Les
-                        assistants de codage (IA Générative)</span></h2>
-                <div class="w-16 h-1 bg-accent mt-4 mb-6 rounded"></div>
-                <p class="text-gray-400 max-w-3xl text-lg leading-relaxed mb-10">
-                    J'étudie l'évolution de GitHub Copilot, Cursor, claude code et Antigravity pour comprendre comment
-                    ces assistants
-                    de codage transforment notre métier. L'enjeu est de déterminer si ces outils visent à remplacer le
-                    développeur ou s'ils redéfinissent simplement sa manière de debugger et de concevoir des
-                    applications.
-                </p>
-
-                <!-- Zone Outils & Sources -->
-                <div class="flex flex-col items-center mt-4">
-                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">Mes outils de veille
-                    </h3>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <span
-                            class="flex items-center gap-2 px-5 py-2.5 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium text-gray-300 hover:text-white hover:border-brand/50 transition-colors shadow-lg">
-                            <i class="fas fa-rss text-green-500 text-lg"></i> Feedly
+                <ul class="skills" role="list">
+                    <li class="skill">
+                        <span class="skill__num" aria-hidden="true">01</span>
+                        <span class="skill__name">Python</span>
+                        <span class="skill__bar" role="meter" aria-label="Niveau Python : avancé"
+                            aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                            <span class="skill__fill" style="--level: 0.85;"></span>
                         </span>
                         <span class="skill__level">avancé</span>
                     </li>
@@ -555,12 +494,41 @@
         </section>
 
         <!-- ============================================== -->
-        <!-- SECTION 6 — VEILLE TECHNOLOGIQUE                -->
+        <!-- SECTION 6 — TABLEAU DE SYNTHÈSE                 -->
+        <!-- ============================================== -->
+        <section class="section section--synthese" id="synthese" aria-labelledby="synthese-title">
+            <div class="container">
+                <header class="section__head">
+                    <p class="section__num">05 / synthèse</p>
+                    <h2 class="section__title" id="synthese-title">Tableau de synthèse</h2>
+                    <p class="section__lead">
+                        Récapitulatif des compétences mises en œuvre durant ma formation BTS SIO SLAM —
+                        document fourni au jury.
+                    </p>
+                </header>
+
+                <a class="document" href="Tableau_Synthese.pdf" target="_blank" rel="noopener noreferrer"
+                    aria-label="Ouvrir le tableau de synthèse au format PDF">
+                    <span class="document__icon" aria-hidden="true">
+                        <i class="ph ph-file-pdf"></i>
+                    </span>
+                    <div class="document__meta">
+                        <p class="document__type">// document · pdf</p>
+                        <p class="document__name">Tableau_Synthese.pdf</p>
+                        <p class="document__sub">Compétences BTS SIO SLAM · 2024 — 2026</p>
+                    </div>
+                    <i class="ph ph-arrow-up-right document__arrow" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- SECTION 7 — VEILLE TECHNOLOGIQUE                -->
         <!-- ============================================== -->
         <section class="section section--veille" id="veille" aria-labelledby="veille-title">
             <div class="container">
                 <header class="section__head section__head--wide">
-                    <p class="section__num">05 / veille</p>
+                    <p class="section__num">06 / veille</p>
                     <h2 class="section__title" id="veille-title">Veille technologique</h2>
                     <p class="section__lead">
                         Sujet : <strong>les assistants de codage (IA générative)</strong>. J'étudie l'évolution
@@ -716,12 +684,12 @@
         </section>
 
         <!-- ============================================== -->
-        <!-- SECTION 7 — CONTACT                             -->
+        <!-- SECTION 8 — CONTACT                             -->
         <!-- ============================================== -->
         <section class="section section--contact" id="contact" aria-labelledby="contact-title">
             <div class="container">
                 <header class="section__head">
-                    <p class="section__num">06 / contact</p>
+                    <p class="section__num">07 / contact</p>
                     <h2 class="section__title" id="contact-title">Travaillons ensemble</h2>
                     <p class="section__lead">
                         Je suis ouvert à toute opportunité d'alternance ou d'échange autour du développement et
