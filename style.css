@@ -681,15 +681,6 @@ dd {
   transform: translateY(-2px);
 }
 
-.project__card--locked {
-  cursor: default;
-}
-
-.project__card--locked:hover {
-  transform: none;
-  border-color: var(--border);
-}
-
 .project__media {
   position: relative;
   aspect-ratio: 16 / 10;
@@ -711,11 +702,6 @@ dd {
 .project__card:focus-visible .project__img {
   filter: brightness(1) saturate(1);
   transform: scale(1.02);
-}
-
-.project__card--locked .project__img {
-  filter: brightness(0.92) saturate(0.9);
-  transform: none;
 }
 
 /* Fallback visuel si l'image manque ou échoue à charger */
@@ -845,10 +831,6 @@ dd {
 .project__card:hover .project__action-arrow,
 .project__card:focus-visible .project__action-arrow {
   transform: translate(2px, -2px);
-}
-
-.project__action--locked i {
-  color: var(--primary);
 }
 
 /* La grille des projets utilise auto-fit dès 280px — pas besoin de media queries
