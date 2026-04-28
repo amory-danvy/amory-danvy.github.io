@@ -438,6 +438,47 @@ dd {
   gap: var(--space-3);
 }
 
+.hero__doc {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding: var(--space-1) 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color var(--t-fast) var(--ease),
+              text-decoration-color var(--t-fast) var(--ease);
+}
+
+.hero__doc i {
+  font-size: 14px;
+  transition: color var(--t-fast) var(--ease),
+              transform var(--t-fast) var(--ease);
+}
+
+.hero__doc:hover,
+.hero__doc:focus-visible {
+  color: var(--primary);
+  text-decoration-color: var(--primary);
+}
+
+.hero__doc:hover i,
+.hero__doc:focus-visible i {
+  color: var(--primary);
+}
+
+.hero__doc:hover .hero__doc-arrow,
+.hero__doc:focus-visible .hero__doc-arrow {
+  transform: translate(2px, -2px);
+}
+
 
 /* ----------------------------------------------------------
    6. BUTTONS
