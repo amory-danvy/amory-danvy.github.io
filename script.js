@@ -246,3 +246,45 @@
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
+
+
+// =============================================
+// Project dialogs (HTML5 <dialog>, native focus trap + Esc to close)
+// =============================================
+(function initProjectDialogs() {
+  // Open buttons : the project card itself
+  document.querySelectorAll('[data-open-dialog]').forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var id = trigger.getAttribute('data-open-dialog');
+      var dialog = document.getElementById(id);
+      if (dialog && typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      } else if (dialog) {
+        // Very old browsers without HTMLDialogElement support :
+        // make the dialog visible, leave a fallback class for CSS.
+        dialog.setAttribute('open', '');
+        dialog.classList.add('is-open-fallback');
+      }
+    });
+  });
+
+  // Close buttons inside each dialog (× icon + "Fermer" footer button)
+  document.querySelectorAll('dialog [data-close-dialog]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var dialog = btn.closest('dialog');
+      if (!dialog) return;
+      if (typeof dialog.close === 'function') dialog.close();
+      else dialog.removeAttribute('open');
+    });
+  });
+
+  // Click on the backdrop (outside .project-dialog__inner) closes the dialog
+  document.querySelectorAll('dialog.project-dialog').forEach(function (dialog) {
+    dialog.addEventListener('click', function (e) {
+      if (e.target === dialog) {
+        if (typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+      }
+    });
+  });
+})();
