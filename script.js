@@ -214,78 +214,94 @@
   }
 
   // ====== Overlays ======
-  // Fenêtres de fade par overlay, exprimées en progress 0..1 sur la section.
-  // Reprend exactement le timing du brief.
+  // Pour chaque overlay : on calcule un point pivot dans la fenêtre de
+  // fade-in et un autre dans la fenêtre de fade-out. Entre les deux,
+  // l'overlay est visible (--p:1). En dehors, caché (--p:0). Pas
+  // d'interpolation linéaire : le snap binaire évite l'effet "projet à
+  // moitié transparent" pendant le scroll. La transition douce est
+  // entièrement déléguée au CSS (220ms ease-out).
   var dimmerEl = section.querySelector('.corridor-dimmer');
   var overlays = [
-    { el: section.querySelector('[data-overlay="hero"]'),       inStart: 0,    inEnd: 0,    outStart: 0.12, outEnd: 0.15, isCard: false },
-    { el: section.querySelector('[data-overlay="cv"]'),         inStart: 0.22, inEnd: 0.26, outStart: 0.33, outEnd: 0.37, isCard: true  },
-    { el: section.querySelector('[data-overlay="newshunter"]'), inStart: 0.44, inEnd: 0.48, outStart: 0.55, outEnd: 0.59, isCard: true  },
-    { el: section.querySelector('[data-overlay="vintgen"]'),    inStart: 0.66, inEnd: 0.70, outStart: 0.77, outEnd: 0.81, isCard: true  },
-    { el: section.querySelector('[data-overlay="end"]'),        inStart: 0.90, inEnd: 0.94, outStart: 1.01, outEnd: 1.02, isCard: true  }
+    { el: section.querySelector('[data-overlay="hero"]'),       showAt: 0,     hideAt: 0.135, isCard: false },
+    { el: section.querySelector('[data-overlay="cv"]'),         showAt: 0.24,  hideAt: 0.35,  isCard: true  },
+    { el: section.querySelector('[data-overlay="newshunter"]'), showAt: 0.46,  hideAt: 0.57,  isCard: true  },
+    { el: section.querySelector('[data-overlay="vintgen"]'),    showAt: 0.68,  hideAt: 0.79,  isCard: true  },
+    { el: section.querySelector('[data-overlay="end"]'),        showAt: 0.92,  hideAt: 1.05,  isCard: true  }
   ].filter(function (o) { return o.el; });
 
-  function lerp(a, b, t) { return a + (b - a) * t; }
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
 
-  // Calcule { p, y, s } selon la position de scroll. Pas de transition :
-  // l'opacity et le transform suivent linéairement la fenêtre de fade.
-  function computeOverlayState(progress, range) {
-    if (progress < range.inStart)  return { p: 0, y:  40, s: 0.96 };
-    if (progress >= range.outEnd)  return { p: 0, y: -40, s: 1.02 };
-
-    if (progress < range.inEnd) {
-      // entrée : 0 → 1
-      var t = (progress - range.inStart) / Math.max(0.0001, range.inEnd - range.inStart);
-      return { p: t, y: lerp(40, 0, t), s: lerp(0.96, 1, t) };
-    }
-    if (progress < range.outStart) {
-      // stable
-      return { p: 1, y: 0, s: 1 };
-    }
-    // sortie : 1 → 0
-    var t2 = (progress - range.outStart) / Math.max(0.0001, range.outEnd - range.outStart);
-    return { p: 1 - t2, y: lerp(0, -40, t2), s: lerp(1, 1.02, t2) };
-  }
-
-  // État précédent par overlay → on évite d'écrire le DOM si rien n'a bougé.
-  var lastState = overlays.map(function () { return { p: -1, y: 0, s: 1, active: false }; });
+  // État précédent par overlay → on évite d'écrire le DOM inutilement.
+  var lastState = overlays.map(function () { return { visible: null }; });
 
   function applyOverlays(progress) {
-    var maxCardP = 0;
+    var anyCardVisible = false;
 
     for (var i = 0; i < overlays.length; i++) {
       var ov = overlays[i];
-      var st = computeOverlayState(progress, ov);
+      var visible = (progress >= ov.showAt && progress < ov.hideAt);
       var prev = lastState[i];
 
-      // Threshold pour limiter le nombre d'écritures style.setProperty (perf).
-      if (Math.abs(st.p - prev.p) > 0.005 ||
-          Math.abs(st.y - prev.y) > 0.5 ||
-          Math.abs(st.s - prev.s) > 0.005) {
-        ov.el.style.setProperty('--p', st.p.toFixed(3));
-        ov.el.style.setProperty('--y', st.y.toFixed(1) + 'px');
-        ov.el.style.setProperty('--s', st.s.toFixed(3));
-        prev.p = st.p; prev.y = st.y; prev.s = st.s;
+      if (visible !== prev.visible) {
+        if (visible) {
+          ov.el.style.setProperty('--p', '1');
+          ov.el.style.setProperty('--y', '0px');
+          ov.el.style.setProperty('--s', '1');
+          ov.el.removeAttribute('inert');
+        } else {
+          // sens du transform selon qu'on est avant ou après la fenêtre
+          var afterWindow = progress >= ov.hideAt;
+          ov.el.style.setProperty('--p', '0');
+          ov.el.style.setProperty('--y', afterWindow ? '-40px' : '40px');
+          ov.el.style.setProperty('--s', afterWindow ? '1.02' : '0.96');
+          ov.el.setAttribute('inert', '');
+        }
+        prev.visible = visible;
       }
 
-      // a11y : retire l'overlay du tab order quand il est invisible.
-      var nowActive = st.p > 0.5;
-      if (nowActive !== prev.active) {
-        if (nowActive) ov.el.removeAttribute('inert');
-        else ov.el.setAttribute('inert', '');
-        prev.active = nowActive;
-      }
-
-      if (ov.isCard && st.p > maxCardP) maxCardP = st.p;
+      if (ov.isCard && visible) anyCardVisible = true;
     }
 
-    // Dimmer : quand une card est >50% visible, monte vers 0.3 opacity.
-    // (linear ramp de p=0.5 → dim=0 jusqu'à p=1 → dim=0.3)
+    // Dimmer : binaire 0 ↔ 0.3. Transition CSS (220ms) gère le fondu.
     if (dimmerEl) {
-      var dim = Math.max(0, (maxCardP - 0.5) * 2) * 0.3;
-      dimmerEl.style.setProperty('--dim', dim.toFixed(3));
+      var targetDim = anyCardVisible ? '0.3' : '0';
+      if (dimmerEl.style.getPropertyValue('--dim') !== targetDim) {
+        dimmerEl.style.setProperty('--dim', targetDim);
+      }
     }
+  }
+
+  // ====== Caméra : checkpoints non-linéaires (figée sur les plateaux) ======
+  // Au lieu d'avancer linéairement avec progress * FRAME_COUNT (effet "ça
+  // glisse en arrière-plan pendant qu'on lit"), la caméra se fige sur les
+  // phases d'overlay et avance entre deux projets ("marche pure"). Ça
+  // donne l'illusion d'une vraie pause narrative.
+  var FRAME_CHECKPOINTS = [
+    { p: 0.00, f: 0   },  // début hero
+    { p: 0.135, f: 0  },  // hero plateau (figé pendant la lecture)
+    { p: 0.24, f: 50  },  // marche 1 → arrivée devant CV
+    { p: 0.35, f: 50  },  // CV plateau
+    { p: 0.46, f: 95  },  // marche 2 → arrivée devant NewsHunter
+    { p: 0.57, f: 95  },  // NewsHunter plateau
+    { p: 0.68, f: 140 },  // marche 3 → arrivée devant Vintgen
+    { p: 0.79, f: 140 },  // Vintgen plateau
+    { p: 0.92, f: 191 },  // marche finale (sortie du couloir)
+    { p: 1.00, f: 191 }   // end plateau
+  ];
+
+  function getFrameIndex(progress) {
+    for (var i = 0; i < FRAME_CHECKPOINTS.length - 1; i++) {
+      var a = FRAME_CHECKPOINTS[i];
+      var b = FRAME_CHECKPOINTS[i + 1];
+      if (progress >= a.p && progress <= b.p) {
+        if (b.p === a.p) return a.f;
+        var t = (progress - a.p) / (b.p - a.p);
+        return Math.round(a.f + t * (b.f - a.f));
+      }
+    }
+    return progress < FRAME_CHECKPOINTS[0].p
+      ? FRAME_CHECKPOINTS[0].f
+      : FRAME_CHECKPOINTS[FRAME_CHECKPOINTS.length - 1].f;
   }
 
   // ====== Scroll loop : un seul rAF pour canvas + overlays ======
@@ -306,9 +322,9 @@
       if (progress === lastProgress) return;
       lastProgress = progress;
 
-      // Frame canvas
+      // Frame canvas (mapping non-linéaire — voir FRAME_CHECKPOINTS)
       if (firstFrameOK) {
-        var idx = Math.min(FRAME_COUNT - 1, Math.floor(progress * FRAME_COUNT));
+        var idx = Math.min(FRAME_COUNT - 1, getFrameIndex(progress));
         if (idx !== currentFrame) renderFrame(idx);
       }
 

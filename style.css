@@ -672,17 +672,21 @@ dd {
   display: block;
 }
 
-/* Dimmer noir entre canvas et overlays. JS pilote --dim de 0 à 0.3
-   en fonction de la card la plus visible. */
+/* Dimmer noir entre canvas et overlays. JS pilote --dim 0 ↔ 0.3 en
+   binaire, la transition CSS gère le fondu (en sync avec les overlays). */
 .corridor-dimmer {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, var(--dim, 0));
+  background: black;
+  opacity: var(--dim, 0);
   pointer-events: none;
+  transition: opacity 220ms var(--ease);
 }
 
 /* Wrapper d'overlay : centré, plein écran. opacity / transform pilotés
-   par CSS vars que JS met à jour à chaque frame de scroll. */
+   par CSS vars que JS met à jour ; le JS bascule binaire 0 ↔ 1 et la
+   transition CSS rapide (220ms) gère le snap doux pour qu'aucun overlay
+   ne soit jamais visible "à moitié transparent" pendant le scroll. */
 .corridor-overlay {
   position: absolute;
   inset: 0;
@@ -694,6 +698,8 @@ dd {
   /* defaults pour les overlays "card" et "end" : cachés en bas */
   opacity: var(--p, 0);
   transform: translateY(var(--y, 40px)) scale(var(--s, 0.96));
+  transition: opacity 220ms var(--ease),
+              transform 280ms var(--ease);
   will-change: opacity, transform;
 }
 
