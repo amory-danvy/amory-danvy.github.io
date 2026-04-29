@@ -250,41 +250,61 @@
 
 // =============================================
 // Project dialogs (HTML5 <dialog>, native focus trap + Esc to close)
+// Lenis smooth-scroll is paused while a dialog is open so the wheel
+// can scroll the modal body instead of the page underneath.
 // =============================================
 (function initProjectDialogs() {
-  // Open buttons : the project card itself
+  function pauseLenis() {
+    if (window.__lenis && typeof window.__lenis.stop === 'function') {
+      window.__lenis.stop();
+    }
+  }
+  function resumeLenis() {
+    if (window.__lenis && typeof window.__lenis.start === 'function') {
+      window.__lenis.start();
+    }
+  }
+
+  function openDialog(dialog) {
+    if (!dialog) return;
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    } else {
+      // Very old browsers without HTMLDialogElement support
+      dialog.setAttribute('open', '');
+      dialog.classList.add('is-open-fallback');
+    }
+    pauseLenis();
+  }
+
+  function closeDialog(dialog) {
+    if (!dialog) return;
+    if (typeof dialog.close === 'function') dialog.close();
+    else dialog.removeAttribute('open');
+  }
+
+  // Open : click on a card (or any element with data-open-dialog="<dialog-id>")
   document.querySelectorAll('[data-open-dialog]').forEach(function (trigger) {
     trigger.addEventListener('click', function () {
       var id = trigger.getAttribute('data-open-dialog');
-      var dialog = document.getElementById(id);
-      if (dialog && typeof dialog.showModal === 'function') {
-        dialog.showModal();
-      } else if (dialog) {
-        // Very old browsers without HTMLDialogElement support :
-        // make the dialog visible, leave a fallback class for CSS.
-        dialog.setAttribute('open', '');
-        dialog.classList.add('is-open-fallback');
-      }
+      openDialog(document.getElementById(id));
     });
   });
 
-  // Close buttons inside each dialog (× icon + "Fermer" footer button)
+  // Close : × icon and footer "Fermer" button
   document.querySelectorAll('dialog [data-close-dialog]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var dialog = btn.closest('dialog');
-      if (!dialog) return;
-      if (typeof dialog.close === 'function') dialog.close();
-      else dialog.removeAttribute('open');
+      closeDialog(btn.closest('dialog'));
     });
   });
 
-  // Click on the backdrop (outside .project-dialog__inner) closes the dialog
   document.querySelectorAll('dialog.project-dialog').forEach(function (dialog) {
+    // Click on the backdrop (i.e. the dialog element itself, not its inner)
     dialog.addEventListener('click', function (e) {
-      if (e.target === dialog) {
-        if (typeof dialog.close === 'function') dialog.close();
-        else dialog.removeAttribute('open');
-      }
+      if (e.target === dialog) closeDialog(dialog);
     });
+    // Native 'close' event fires for: .close(), Esc key, backdrop click.
+    // We resume Lenis here, in one place, regardless of which closer triggered.
+    dialog.addEventListener('close', resumeLenis);
   });
 })();

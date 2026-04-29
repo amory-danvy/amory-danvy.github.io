@@ -1862,6 +1862,14 @@ button.project__card {
    13. PROJECT DIALOGS (vue détaillée)
    ---------------------------------------------------------- */
 .project-dialog {
+  /* Centrage déterministe (override le margin:auto par défaut du UA
+     pour ne pas dépendre d'un éventuel containing-block parent). */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+
   width: min(720px, 92vw);
   max-width: 720px;
   max-height: 88vh;
@@ -1872,7 +1880,6 @@ button.project__card {
   color: var(--fg);
   font-family: var(--font-body);
   overflow: hidden;
-  /* Safari fallback when not displayed */
 }
 
 .project-dialog::backdrop {
