@@ -1204,100 +1204,105 @@ dd {
 
 
 /* ----------------------------------------------------------
-   8e. COMPÉTENCES (skills)
+   8e. COMPÉTENCES (langages, logos monochromes via CSS mask)
    ---------------------------------------------------------- */
 .skills {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
 }
 
 .skill {
-  display: grid;
-  grid-template-columns: 56px 200px minmax(0, 1fr) 140px;
-  gap: var(--space-6);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: var(--space-4) var(--space-3);
-  border-bottom: 1px solid var(--border);
-  transition: background-color var(--t-fast) var(--ease);
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-4);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  transition: border-color var(--t-fast) var(--ease),
+              transform var(--t-fast) var(--ease);
+  cursor: default;
 }
 
 .skill:hover,
 .skill:focus-within {
-  background: var(--bg-elevated);
+  border-color: var(--primary);
+  transform: translateY(-2px);
 }
 
-.skill__num {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--fg-muted);
-  letter-spacing: 0.04em;
+/* Logo : SVG noir + or via CSS mask, couleur = background-color */
+.skill__logo {
+  display: block;
+  width: 48px;
+  height: 48px;
+  background-color: var(--fg-muted);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  transition: background-color var(--t-fast) var(--ease);
 }
 
-.skill__num::before {
-  content: '/ ';
-  color: var(--border-strong);
+.skill:hover .skill__logo,
+.skill:focus-within .skill__logo {
+  background-color: var(--primary);
+}
+
+/* Conteneur pour les cells à 2 logos (HTML / CSS) */
+.skill__logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.skill__logos .skill__logo {
+  width: 40px;
+  height: 40px;
+}
+
+/* Chaque modifier pointe vers son SVG dans /assets/icons/ */
+.skill__logo--python {
+  mask-image: url("assets/icons/python.svg");
+  -webkit-mask-image: url("assets/icons/python.svg");
+}
+.skill__logo--typescript {
+  mask-image: url("assets/icons/typescript.svg");
+  -webkit-mask-image: url("assets/icons/typescript.svg");
+}
+.skill__logo--javascript {
+  mask-image: url("assets/icons/javascript.svg");
+  -webkit-mask-image: url("assets/icons/javascript.svg");
+}
+.skill__logo--html5 {
+  mask-image: url("assets/icons/html5.svg");
+  -webkit-mask-image: url("assets/icons/html5.svg");
+}
+.skill__logo--css3 {
+  mask-image: url("assets/icons/css3.svg");
+  -webkit-mask-image: url("assets/icons/css3.svg");
+}
+.skill__logo--php {
+  mask-image: url("assets/icons/php.svg");
+  -webkit-mask-image: url("assets/icons/php.svg");
+}
+.skill__logo--sql {
+  mask-image: url("assets/icons/sql.svg");
+  -webkit-mask-image: url("assets/icons/sql.svg");
 }
 
 .skill__name {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--fg);
-  letter-spacing: -0.015em;
-}
-
-.skill__bar {
-  position: relative;
-  height: 4px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-  display: block;
-}
-
-.skill__fill {
-  display: block;
-  height: 100%;
-  width: 100%;
-  background: var(--primary);
-  transform-origin: left center;
-  transform: scaleX(var(--level, 0));
-  transition: transform 800ms var(--ease);
-}
-
-.skill:hover .skill__fill,
-.skill:focus-within .skill__fill {
-  background: var(--primary);
-  box-shadow: 0 0 8px var(--primary-glow);
-}
-
-.skill__level {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--fg-muted);
-  text-align: right;
+  color: var(--fg);
   letter-spacing: 0;
-}
-
-.skill:hover .skill__level,
-.skill:focus-within .skill__level {
-  color: var(--primary);
-}
-
-@media (max-width: 768px) {
-  .skill {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
-    grid-template-rows: auto auto;
-    column-gap: var(--space-3);
-    row-gap: var(--space-3);
-  }
-  .skill__num { grid-column: 1; grid-row: 1; }
-  .skill__name { grid-column: 2; grid-row: 1; }
-  .skill__level { grid-column: 3; grid-row: 1; }
-  .skill__bar { grid-column: 1 / -1; grid-row: 2; }
 }
 
 
