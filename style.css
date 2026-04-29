@@ -640,6 +640,39 @@ dd {
 
 
 /* ----------------------------------------------------------
+   7-bis. CINEMATIC SEQUENCE (scroll-scrubbed canvas)
+   La section s'auto-cache si la frame 0001 est 404 (cf. script.js).
+   ---------------------------------------------------------- */
+.cinematic-sequence {
+  height: 250vh;
+  position: relative;
+  background: var(--bg);
+}
+
+.sequence-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#sequence-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .cinematic-sequence {
+    display: none;
+  }
+}
+
+
+/* ----------------------------------------------------------
    8. SECTIONS (head commun)
    ---------------------------------------------------------- */
 .section {

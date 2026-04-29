@@ -137,3 +137,112 @@
   }
 
 })();
+
+
+// =============================================
+// Scroll-scrubbed cinematic sequence
+// Frames attendues dans /assets/sequence/frame_NNNN.webp (4 digits, 1..FRAME_COUNT).
+// Si la frame 0001 retourne 404, la section s'auto-masque (zéro impact visible).
+// =============================================
+(function initCinematicSequence() {
+  var canvas = document.getElementById('sequence-canvas');
+  if (!canvas) return;
+
+  // Skip mobile : CSS cache déjà la section, on évite tout préchargement.
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+
+  // Respect prefers-reduced-motion : on n'anime pas le scrubbing,
+  // on cache la section (250vh de scroll inutile sinon).
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var sec = canvas.closest('.cinematic-sequence');
+    if (sec) sec.style.display = 'none';
+    return;
+  }
+
+  var section = canvas.closest('.cinematic-sequence');
+  if (!section) return;
+
+  var ctx = canvas.getContext('2d');
+  var FRAME_COUNT = 192;
+  var pad = function (i) { return ('0000' + i).slice(-4); };
+  var FRAME_PATH = function (i) { return 'assets/sequence/frame_' + pad(i) + '.webp'; };
+
+  var images = new Array(FRAME_COUNT);
+  var currentFrame = 0;
+  var firstFrameOK = false;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resizeCanvas() {
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    // setTransform reset puis applique — pas d'accumulation à chaque resize.
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (firstFrameOK) render(currentFrame);
+  }
+
+  function render(frameIndex) {
+    var img = images[frameIndex];
+    if (!img || !img.complete || !img.naturalWidth) return;
+    var rect = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    // Cover : remplir tout le canvas en gardant l'aspect.
+    var scale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
+    var w = img.naturalWidth * scale;
+    var h = img.naturalHeight * scale;
+    var x = (rect.width - w) / 2;
+    var y = (rect.height - h) / 2;
+    ctx.drawImage(img, x, y, w, h);
+    currentFrame = frameIndex;
+  }
+
+  function preloadBatch(start, end) {
+    for (var i = start; i <= end && i <= FRAME_COUNT; i++) {
+      (function (idx) {
+        var img = new Image();
+        img.src = FRAME_PATH(idx);
+        img.onload = function () {
+          if (idx === 1 && !firstFrameOK) {
+            firstFrameOK = true;
+            render(0);
+          }
+        };
+        img.onerror = function () {
+          if (idx === 1) {
+            // Frame 0001 absente → la séquence n'a pas de matière, on
+            // masque la section pour ne pas créer un trou de 250vh.
+            section.style.display = 'none';
+          }
+        };
+        images[idx - 1] = img;
+      })(i);
+    }
+  }
+
+  // Throttle scroll → 1 frame par rAF.
+  var rafScheduled = false;
+  function onScroll() {
+    if (rafScheduled) return;
+    rafScheduled = true;
+    requestAnimationFrame(function () {
+      rafScheduled = false;
+      if (!firstFrameOK) return;
+      var rect = section.getBoundingClientRect();
+      var total = section.offsetHeight - window.innerHeight;
+      if (total <= 0) return;
+      var scrolled = -rect.top;
+      var progress = Math.min(1, Math.max(0, scrolled / total));
+      var frameIndex = Math.min(FRAME_COUNT - 1, Math.floor(progress * FRAME_COUNT));
+      if (frameIndex !== currentFrame) render(frameIndex);
+    });
+  }
+
+  resizeCanvas();
+  preloadBatch(1, 30);
+
+  window.addEventListener('load', function () {
+    preloadBatch(31, FRAME_COUNT);
+  });
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();

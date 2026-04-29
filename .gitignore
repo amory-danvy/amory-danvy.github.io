@@ -12,3 +12,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Sources vidéo brutes (ne doivent pas atterrir sur GH Pages)
+source.mp4
+*.mov
+*.mkv
