@@ -670,6 +670,10 @@ dd {
   width: 100%;
   height: 100%;
   display: block;
+  /* Vignette douce — la lumière "tombe" naturellement aux bords, et ça
+     masque toute trace résiduelle si la crop ffmpeg n'a pas tout nettoyé. */
+  mask-image: radial-gradient(ellipse 100% 100% at center, black 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, black 70%, transparent 100%);
 }
 
 /* Dimmer noir entre canvas et overlays. JS pilote --dim 0 ↔ 0.3 en
