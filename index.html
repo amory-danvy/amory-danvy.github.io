@@ -69,90 +69,135 @@
     <main id="main">
 
         <!-- ============================================== -->
-        <!-- SECTION 1 — HERO                                -->
+        <!-- SECTION 1 — CINEMATIC CORRIDOR (hero + teasers) -->
+        <!-- 600vh : pin canvas 100vh + 5 overlays scroll-driven. -->
+        <!-- Mobile (<768px) : canvas/teasers/dimmer cachés, le hero  -->
+        <!-- text se rend en section classique en haut de page.       -->
         <!-- ============================================== -->
-        <section class="hero" id="top" aria-label="Accueil">
-            <div class="hero__grid">
-                <div class="hero__main">
-                    <p class="hero__meta" aria-hidden="true">// portfolio · v2026.04</p>
+        <section class="cinematic-corridor" id="top" aria-label="Accueil">
+            <div class="corridor-pin">
+                <!-- Canvas (couloir scroll-scrubbed) -->
+                <canvas id="sequence-canvas" aria-hidden="true"></canvas>
 
-                    <h1 class="hero__name">
-                        <span class="hero__name-line">amory</span>
-                        <span class="hero__name-line">danvy<span class="hero__cursor"
-                                aria-hidden="true">_</span></span>
-                    </h1>
+                <!-- Dimmer noir activé par les cards >50% visibles -->
+                <div class="corridor-dimmer" aria-hidden="true"></div>
 
-                    <p class="hero__tagline">
-                        Développeur en alternance, spécialisé IA agentique.
-                    </p>
-
-                    <p class="hero__desc">
-                        Je travaille avec l'IA agentique au quotidien chez Siccardi Tech Leads, dans le cadre de mon
-                        alternance BTS SIO SLAM. J'aime construire des outils qui font disparaître des heures de
-                        tâches manuelles. Mon terrain de jeu&nbsp;: Python, TypeScript, et tout ce qui peut être
-                        automatisé.
-                    </p>
-
-                    <div class="hero__cta">
-                        <a href="#projets" class="btn btn--primary">
-                            <span>Voir les projets</span>
-                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                        </a>
-                        <a href="#contact" class="btn btn--ghost">
-                            <span>Contact</span>
+                <!-- Overlay 1 : Hero text (0 → 0.15) -->
+                <div class="corridor-overlay corridor-overlay--hero" data-overlay="hero">
+                    <div class="corridor-overlay__inner hero__main">
+                        <p class="hero__meta" aria-hidden="true">// portfolio · v2026.04</p>
+                        <h1 class="hero__name">
+                            <span class="hero__name-line">amory</span>
+                            <span class="hero__name-line">danvy<span class="hero__cursor"
+                                    aria-hidden="true">_</span></span>
+                        </h1>
+                        <p class="hero__tagline">
+                            Développeur en alternance, spécialisé IA agentique.
+                        </p>
+                        <p class="hero__desc">
+                            Je travaille avec l'IA agentique au quotidien chez Siccardi Tech Leads, dans le cadre
+                            de mon alternance BTS SIO SLAM. J'aime construire des outils qui font disparaître des
+                            heures de tâches manuelles. Mon terrain de jeu&nbsp;: Python, TypeScript, et tout ce
+                            qui peut être automatisé.
+                        </p>
+                        <div class="hero__cta">
+                            <a href="#projets" class="btn btn--primary">
+                                <span>Voir les projets</span>
+                                <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="#contact" class="btn btn--ghost">
+                                <span>Contact</span>
+                            </a>
+                        </div>
+                        <a class="hero__doc" href="Tableau_Synthese.pdf" target="_blank" rel="noopener noreferrer"
+                            aria-label="Ouvrir le tableau de synthèse au format PDF">
+                            <i class="ph ph-file-pdf" aria-hidden="true"></i>
+                            <span>tableau de synthèse · pdf</span>
+                            <i class="ph ph-arrow-up-right hero__doc-arrow" aria-hidden="true"></i>
                         </a>
                     </div>
-
-                    <a class="hero__doc" href="Tableau_Synthese.pdf" target="_blank" rel="noopener noreferrer"
-                        aria-label="Ouvrir le tableau de synthèse au format PDF">
-                        <i class="ph ph-file-pdf" aria-hidden="true"></i>
-                        <span>tableau de synthèse · pdf</span>
-                        <i class="ph ph-arrow-up-right hero__doc-arrow" aria-hidden="true"></i>
-                    </a>
                 </div>
 
-                <aside class="sys" aria-label="Informations professionnelles">
-                    <div class="sys__head">
-                        <span class="sys__head-dot" aria-hidden="true"></span>
-                        <span class="sys__head-label">system</span>
-                    </div>
-                    <dl class="sys__list">
-                        <div class="sys__row">
-                            <dt class="sys__key">status</dt>
-                            <dd class="sys__val sys__val--accent">open for alternance</dd>
-                        </div>
-                        <div class="sys__row">
-                            <dt class="sys__key">location</dt>
-                            <dd class="sys__val">rambouillet, fr</dd>
-                        </div>
-                        <div class="sys__row">
-                            <dt class="sys__key">company</dt>
-                            <dd class="sys__val">siccardi tech leads</dd>
-                        </div>
-                        <div class="sys__row">
-                            <dt class="sys__key">since</dt>
-                            <dd class="sys__val">2024-09</dd>
-                        </div>
-                        <div class="sys__row">
-                            <dt class="sys__key">stack</dt>
-                            <dd class="sys__val">python · ts · ia</dd>
-                        </div>
-                        <div class="sys__row">
-                            <dt class="sys__key">degree</dt>
-                            <dd class="sys__val">bts sio · slam</dd>
-                        </div>
-                    </dl>
-                </aside>
-            </div>
-        </section>
+                <!-- Overlay 2 : Teaser projet 1 — Générateur de CV (0.22 → 0.37) -->
+                <div class="corridor-overlay corridor-overlay--card" data-overlay="cv">
+                    <article class="teaser-card">
+                        <p class="teaser-card__index">/ 01 — projet personnel</p>
+                        <h2 class="teaser-card__title">Générateur de CV Dynamique</h2>
+                        <p class="teaser-card__desc">
+                            Application web pour créer un CV propre depuis un formulaire, avec authentification
+                            et export PDF. Pensé pour éviter la galère d'alignement sur Canva.
+                        </p>
+                        <ul class="teaser-card__tags" role="list" aria-label="Stack technique">
+                            <li>python</li>
+                            <li>html</li>
+                            <li>css</li>
+                        </ul>
+                        <a class="btn btn--primary teaser-card__cta" href="#projet-cv">
+                            <span>En savoir plus</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                </div>
 
-        <!-- ============================================== -->
-        <!-- SECTION 1.5 — CINEMATIC SEQUENCE                -->
-        <!-- Décoratif. Auto-hide si /assets/sequence/ vide. -->
-        <!-- ============================================== -->
-        <section class="cinematic-sequence" aria-hidden="true">
-            <div class="sequence-pin">
-                <canvas id="sequence-canvas"></canvas>
+                <!-- Overlay 3 : Teaser projet 2 — NewsHunter (0.44 → 0.59) -->
+                <div class="corridor-overlay corridor-overlay--card" data-overlay="newshunter">
+                    <article class="teaser-card">
+                        <p class="teaser-card__index">/ 03 — projet alternance</p>
+                        <h2 class="teaser-card__title">NewsHunter — Tweet Fetcher</h2>
+                        <p class="teaser-card__desc">
+                            Outil d'automatisation Python développé chez Siccardi Tech Leads. Extrait, filtre et
+                            archive les tweets pertinents pour suivre l'actualité IA et dev sans scroller X
+                            manuellement.
+                        </p>
+                        <ul class="teaser-card__tags" role="list" aria-label="Stack technique">
+                            <li>python</li>
+                            <li>tweepy</li>
+                            <li>automation</li>
+                        </ul>
+                        <a class="btn btn--primary teaser-card__cta" href="#projet-newshunter">
+                            <span>En savoir plus</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                </div>
+
+                <!-- Overlay 4 : Teaser projet 3 — Vintgen (0.66 → 0.81) -->
+                <div class="corridor-overlay corridor-overlay--card" data-overlay="vintgen">
+                    <article class="teaser-card">
+                        <p class="teaser-card__index">/ 04 — projet bts · épreuve e6</p>
+                        <h2 class="teaser-card__title">Vintgen — IA &amp; automatisation</h2>
+                        <p class="teaser-card__desc">
+                            Photo d'un article → prix conseillé, description optimisée et hashtags pertinents en
+                            quelques secondes pour les vendeurs Vinted. Pipeline complet IA multimodale.
+                        </p>
+                        <ul class="teaser-card__tags" role="list" aria-label="Stack technique">
+                            <li>next.js</li>
+                            <li>typescript</li>
+                            <li>gemini vision</li>
+                            <li>convex</li>
+                        </ul>
+                        <a class="btn btn--primary teaser-card__cta" href="#projet-vintedboost">
+                            <span>En savoir plus</span>
+                            <i class="ph ph-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                </div>
+
+                <!-- Overlay 5 : Transition finale (0.90 → 1.00) -->
+                <div class="corridor-overlay corridor-overlay--end" data-overlay="end">
+                    <article class="teaser-card teaser-card--exit">
+                        <p class="teaser-card__index">/ sortie du couloir</p>
+                        <h2 class="teaser-card__title">Continuer la visite</h2>
+                        <p class="teaser-card__desc">
+                            La suite du portfolio en bas : projets détaillés, parcours, tableau de synthèse,
+                            veille technologique et contact.
+                        </p>
+                        <a class="btn btn--primary teaser-card__cta teaser-card__cta--down" href="#projets">
+                            <span>Continuer</span>
+                            <i class="ph ph-arrow-down" aria-hidden="true"></i>
+                        </a>
+                    </article>
+                </div>
             </div>
         </section>
 
@@ -173,7 +218,7 @@
                 <ul class="projects" role="list">
 
                     <!-- Projet 01 — Générateur de CV -->
-                    <li class="project">
+                    <li class="project" id="projet-cv">
                         <button class="project__card" type="button" data-open-dialog="dialog-cv"
                             aria-label="Voir le détail de Générateur de CV Dynamique">
                             <div class="project__media" data-icon-name="ph-identification-card">
@@ -235,7 +280,7 @@
                     </li>
 
                     <!-- Projet 03 — NewsHunter -->
-                    <li class="project">
+                    <li class="project" id="projet-newshunter">
                         <button class="project__card" type="button" data-open-dialog="dialog-newshunter"
                             aria-label="Voir le détail de NewsHunter">
                             <div class="project__media">
@@ -267,7 +312,7 @@
                     </li>
 
                     <!-- Projet 04 — VintedBoost (Vintgen) -->
-                    <li class="project">
+                    <li class="project" id="projet-vintedboost">
                         <button class="project__card" type="button" data-open-dialog="dialog-vintgen"
                             aria-label="Voir le détail de Vintgen">
                             <div class="project__media">

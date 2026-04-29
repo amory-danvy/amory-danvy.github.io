@@ -140,35 +140,36 @@
 
 
 // =============================================
-// Scroll-scrubbed cinematic sequence
-// Frames attendues dans /assets/sequence/frame_NNNN.webp (4 digits, 1..FRAME_COUNT).
-// Si la frame 0001 retourne 404, la section s'auto-masque (zéro impact visible).
+// Cinematic corridor (was: cinematic-sequence)
+// ----------------------------------------------------------------
+// Section 600vh contenant :
+//   - un canvas pinned 100vh qui scrub à travers /assets/sequence/frame_NNNN.webp
+//   - 5 overlays (hero text + 3 teasers projets + transition finale) dont
+//     l'opacity / translateY / scale sont pilotés par la position du scroll
+//   - un dimmer noir qui se renforce quand un teaser est >50% visible
+//
+// Mobile (<768px) et prefers-reduced-motion : tout est rendu en stack par
+// le CSS, on bail dès l'init pour ne rien animer.
 // =============================================
-(function initCinematicSequence() {
+(function initCinematicCorridor() {
   var canvas = document.getElementById('sequence-canvas');
-  if (!canvas) return;
+  var section = document.querySelector('.cinematic-corridor');
+  if (!canvas || !section) return;
 
-  // Skip mobile : CSS cache déjà la section, on évite tout préchargement.
+  // Mobile : CSS gère le rendu en stack, JS reste en retrait.
   if (window.matchMedia('(max-width: 768px)').matches) return;
 
-  // Respect prefers-reduced-motion : on n'anime pas le scrubbing,
-  // on cache la section (250vh de scroll inutile sinon).
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var sec = canvas.closest('.cinematic-sequence');
-    if (sec) sec.style.display = 'none';
-    return;
-  }
+  // prefers-reduced-motion : idem, le CSS rend les overlays en flow normal.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var section = canvas.closest('.cinematic-sequence');
-  if (!section) return;
-
+  // ====== Canvas / frame scrubbing ======
   var ctx = canvas.getContext('2d');
   var FRAME_COUNT = 192;
   var pad = function (i) { return ('0000' + i).slice(-4); };
   var FRAME_PATH = function (i) { return 'assets/sequence/frame_' + pad(i) + '.webp'; };
 
   var images = new Array(FRAME_COUNT);
-  var currentFrame = 0;
+  var currentFrame = -1;
   var firstFrameOK = false;
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -176,24 +177,22 @@
     var rect = canvas.getBoundingClientRect();
     canvas.width = Math.round(rect.width * dpr);
     canvas.height = Math.round(rect.height * dpr);
-    // setTransform reset puis applique — pas d'accumulation à chaque resize.
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (firstFrameOK) render(currentFrame);
+    if (firstFrameOK && currentFrame >= 0) renderFrame(currentFrame);
   }
 
-  function render(frameIndex) {
-    var img = images[frameIndex];
+  function renderFrame(idx) {
+    var img = images[idx];
     if (!img || !img.complete || !img.naturalWidth) return;
     var rect = canvas.getBoundingClientRect();
     ctx.clearRect(0, 0, rect.width, rect.height);
-    // Cover : remplir tout le canvas en gardant l'aspect.
     var scale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
     var w = img.naturalWidth * scale;
     var h = img.naturalHeight * scale;
     var x = (rect.width - w) / 2;
     var y = (rect.height - h) / 2;
     ctx.drawImage(img, x, y, w, h);
-    currentFrame = frameIndex;
+    currentFrame = idx;
   }
 
   function preloadBatch(start, end) {
@@ -204,46 +203,136 @@
         img.onload = function () {
           if (idx === 1 && !firstFrameOK) {
             firstFrameOK = true;
-            render(0);
+            renderFrame(0);
           }
         };
-        img.onerror = function () {
-          if (idx === 1) {
-            // Frame 0001 absente → la séquence n'a pas de matière, on
-            // masque la section pour ne pas créer un trou de 250vh.
-            section.style.display = 'none';
-          }
-        };
+        // pas d'auto-hide ici : si les frames manquent, le couloir reste vide
+        // mais les overlays jouent quand même (hero text + teasers visibles).
         images[idx - 1] = img;
       })(i);
     }
   }
 
-  // Throttle scroll → 1 frame par rAF.
+  // ====== Overlays ======
+  // Fenêtres de fade par overlay, exprimées en progress 0..1 sur la section.
+  // Reprend exactement le timing du brief.
+  var dimmerEl = section.querySelector('.corridor-dimmer');
+  var overlays = [
+    { el: section.querySelector('[data-overlay="hero"]'),       inStart: 0,    inEnd: 0,    outStart: 0.12, outEnd: 0.15, isCard: false },
+    { el: section.querySelector('[data-overlay="cv"]'),         inStart: 0.22, inEnd: 0.26, outStart: 0.33, outEnd: 0.37, isCard: true  },
+    { el: section.querySelector('[data-overlay="newshunter"]'), inStart: 0.44, inEnd: 0.48, outStart: 0.55, outEnd: 0.59, isCard: true  },
+    { el: section.querySelector('[data-overlay="vintgen"]'),    inStart: 0.66, inEnd: 0.70, outStart: 0.77, outEnd: 0.81, isCard: true  },
+    { el: section.querySelector('[data-overlay="end"]'),        inStart: 0.90, inEnd: 0.94, outStart: 1.01, outEnd: 1.02, isCard: true  }
+  ].filter(function (o) { return o.el; });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+  // Calcule { p, y, s } selon la position de scroll. Pas de transition :
+  // l'opacity et le transform suivent linéairement la fenêtre de fade.
+  function computeOverlayState(progress, range) {
+    if (progress < range.inStart)  return { p: 0, y:  40, s: 0.96 };
+    if (progress >= range.outEnd)  return { p: 0, y: -40, s: 1.02 };
+
+    if (progress < range.inEnd) {
+      // entrée : 0 → 1
+      var t = (progress - range.inStart) / Math.max(0.0001, range.inEnd - range.inStart);
+      return { p: t, y: lerp(40, 0, t), s: lerp(0.96, 1, t) };
+    }
+    if (progress < range.outStart) {
+      // stable
+      return { p: 1, y: 0, s: 1 };
+    }
+    // sortie : 1 → 0
+    var t2 = (progress - range.outStart) / Math.max(0.0001, range.outEnd - range.outStart);
+    return { p: 1 - t2, y: lerp(0, -40, t2), s: lerp(1, 1.02, t2) };
+  }
+
+  // État précédent par overlay → on évite d'écrire le DOM si rien n'a bougé.
+  var lastState = overlays.map(function () { return { p: -1, y: 0, s: 1, active: false }; });
+
+  function applyOverlays(progress) {
+    var maxCardP = 0;
+
+    for (var i = 0; i < overlays.length; i++) {
+      var ov = overlays[i];
+      var st = computeOverlayState(progress, ov);
+      var prev = lastState[i];
+
+      // Threshold pour limiter le nombre d'écritures style.setProperty (perf).
+      if (Math.abs(st.p - prev.p) > 0.005 ||
+          Math.abs(st.y - prev.y) > 0.5 ||
+          Math.abs(st.s - prev.s) > 0.005) {
+        ov.el.style.setProperty('--p', st.p.toFixed(3));
+        ov.el.style.setProperty('--y', st.y.toFixed(1) + 'px');
+        ov.el.style.setProperty('--s', st.s.toFixed(3));
+        prev.p = st.p; prev.y = st.y; prev.s = st.s;
+      }
+
+      // a11y : retire l'overlay du tab order quand il est invisible.
+      var nowActive = st.p > 0.5;
+      if (nowActive !== prev.active) {
+        if (nowActive) ov.el.removeAttribute('inert');
+        else ov.el.setAttribute('inert', '');
+        prev.active = nowActive;
+      }
+
+      if (ov.isCard && st.p > maxCardP) maxCardP = st.p;
+    }
+
+    // Dimmer : quand une card est >50% visible, monte vers 0.3 opacity.
+    // (linear ramp de p=0.5 → dim=0 jusqu'à p=1 → dim=0.3)
+    if (dimmerEl) {
+      var dim = Math.max(0, (maxCardP - 0.5) * 2) * 0.3;
+      dimmerEl.style.setProperty('--dim', dim.toFixed(3));
+    }
+  }
+
+  // ====== Scroll loop : un seul rAF pour canvas + overlays ======
   var rafScheduled = false;
+  var lastProgress = -1;
+
   function onScroll() {
     if (rafScheduled) return;
     rafScheduled = true;
     requestAnimationFrame(function () {
       rafScheduled = false;
-      if (!firstFrameOK) return;
+
       var rect = section.getBoundingClientRect();
       var total = section.offsetHeight - window.innerHeight;
       if (total <= 0) return;
-      var scrolled = -rect.top;
-      var progress = Math.min(1, Math.max(0, scrolled / total));
-      var frameIndex = Math.min(FRAME_COUNT - 1, Math.floor(progress * FRAME_COUNT));
-      if (frameIndex !== currentFrame) render(frameIndex);
+      var progress = clamp01(-rect.top / total);
+
+      if (progress === lastProgress) return;
+      lastProgress = progress;
+
+      // Frame canvas
+      if (firstFrameOK) {
+        var idx = Math.min(FRAME_COUNT - 1, Math.floor(progress * FRAME_COUNT));
+        if (idx !== currentFrame) renderFrame(idx);
+      }
+
+      // Overlays + dimmer
+      applyOverlays(progress);
     });
   }
 
+  // ====== Init ======
   resizeCanvas();
   preloadBatch(1, 30);
+  // état initial des overlays (avant tout scroll)
+  applyOverlays(0);
 
   window.addEventListener('load', function () {
     preloadBatch(31, FRAME_COUNT);
   });
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', function () {
+    resizeCanvas();
+    // forcer un recalcul d'overlay au resize (les fenêtres de progress
+    // dépendent de section.offsetHeight qui peut bouger en responsive)
+    lastProgress = -1;
+    onScroll();
+  });
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
