@@ -640,6 +640,39 @@ dd {
 
 
 /* ----------------------------------------------------------
+   7-bis. CINEMATIC SEQUENCE (scroll-scrubbed canvas)
+   La section s'auto-cache si la frame 0001 est 404 (cf. script.js).
+   ---------------------------------------------------------- */
+.cinematic-sequence {
+  height: 250vh;
+  position: relative;
+  background: var(--bg);
+}
+
+.sequence-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#sequence-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .cinematic-sequence {
+    display: none;
+  }
+}
+
+
+/* ----------------------------------------------------------
    8. SECTIONS (head commun)
    ---------------------------------------------------------- */
 .section {
@@ -1234,24 +1267,27 @@ dd {
   transform: translateY(-2px);
 }
 
-/* Logo : SVG noir + or via CSS mask, couleur = background-color */
+/* Logo : SVG inline, fill="currentColor" hérite de la couleur du parent.
+   Plus fiable que mask-image (qui dépend des dimensions intrinsèques du SVG). */
 .skill__logo {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 48px;
   height: 48px;
-  background-color: var(--fg-muted);
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  transition: background-color var(--t-fast) var(--ease);
+  color: var(--fg-muted);
+  transition: color var(--t-fast) var(--ease);
+}
+
+.skill__logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .skill:hover .skill__logo,
 .skill:focus-within .skill__logo {
-  background-color: var(--primary);
+  color: var(--primary);
 }
 
 /* Conteneur pour les cells à 2 logos (HTML / CSS) */
@@ -1265,36 +1301,6 @@ dd {
 .skill__logos .skill__logo {
   width: 40px;
   height: 40px;
-}
-
-/* Chaque modifier pointe vers son SVG dans /assets/icons/ */
-.skill__logo--python {
-  mask-image: url("assets/icons/python.svg");
-  -webkit-mask-image: url("assets/icons/python.svg");
-}
-.skill__logo--typescript {
-  mask-image: url("assets/icons/typescript.svg");
-  -webkit-mask-image: url("assets/icons/typescript.svg");
-}
-.skill__logo--javascript {
-  mask-image: url("assets/icons/javascript.svg");
-  -webkit-mask-image: url("assets/icons/javascript.svg");
-}
-.skill__logo--html5 {
-  mask-image: url("assets/icons/html5.svg");
-  -webkit-mask-image: url("assets/icons/html5.svg");
-}
-.skill__logo--css3 {
-  mask-image: url("assets/icons/css3.svg");
-  -webkit-mask-image: url("assets/icons/css3.svg");
-}
-.skill__logo--php {
-  mask-image: url("assets/icons/php.svg");
-  -webkit-mask-image: url("assets/icons/php.svg");
-}
-.skill__logo--sql {
-  mask-image: url("assets/icons/sql.svg");
-  -webkit-mask-image: url("assets/icons/sql.svg");
 }
 
 .skill__name {
@@ -1808,4 +1814,255 @@ dd {
 .nav__list a.is-active::after {
   transform: scaleX(1);
   background: var(--primary);
+}
+
+
+/* ----------------------------------------------------------
+   12. PROJECT CARD AS BUTTON
+   Same look as before, but the card is now a <button> opening a modal.
+   ---------------------------------------------------------- */
+button.project__card {
+  appearance: none;
+  background: var(--bg-elevated);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+
+/* ----------------------------------------------------------
+   13. PROJECT DIALOGS (vue détaillée)
+   ---------------------------------------------------------- */
+.project-dialog {
+  /* Centrage déterministe (override le margin:auto par défaut du UA
+     pour ne pas dépendre d'un éventuel containing-block parent). */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+
+  width: min(720px, 92vw);
+  max-width: 720px;
+  max-height: 88vh;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+.project-dialog::backdrop {
+  background: rgba(15, 20, 25, 0.78);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+
+.project-dialog__inner {
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+}
+
+.project-dialog__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.project-dialog__index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+}
+
+.project-dialog__title {
+  font-family: var(--font-body);
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin: 0;
+}
+
+.project-dialog__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  color: var(--fg-muted);
+  font-size: 22px;
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: color var(--t-fast) var(--ease),
+              border-color var(--t-fast) var(--ease);
+}
+
+.project-dialog__close:hover,
+.project-dialog__close:focus-visible {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.project-dialog__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.project-dialog__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.project-dialog__section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  margin-bottom: var(--space-1);
+}
+
+.project-dialog__section p {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+.project-dialog__section p + p {
+  margin-top: var(--space-3);
+}
+
+.project-dialog__section p strong {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.project-dialog__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-6);
+  border-left: 1px solid var(--border);
+}
+
+.project-dialog__list li {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+}
+
+.project-dialog__list li::before {
+  content: '→';
+  position: absolute;
+  left: -25px;
+  top: 0;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.project-dialog__list li strong {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.project-dialog__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+@media (max-width: 600px) {
+  .project-dialog {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+  .project-dialog__inner {
+    max-height: 100vh;
+  }
+}
+
+
+/* ----------------------------------------------------------
+   14. VEILLE — méthodologie (bloc 4 cellules)
+   ---------------------------------------------------------- */
+.method {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-16);
+  padding: var(--space-8);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.method__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.method__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--primary);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+
+.method__content {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+}
+
+.method__content strong {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.method__content code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--fg);
 }
