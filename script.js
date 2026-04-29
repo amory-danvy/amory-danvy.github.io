@@ -140,35 +140,36 @@
 
 
 // =============================================
-// Scroll-scrubbed cinematic sequence
-// Frames attendues dans /assets/sequence/frame_NNNN.webp (4 digits, 1..FRAME_COUNT).
-// Si la frame 0001 retourne 404, la section s'auto-masque (zéro impact visible).
+// Cinematic corridor (was: cinematic-sequence)
+// ----------------------------------------------------------------
+// Section 600vh contenant :
+//   - un canvas pinned 100vh qui scrub à travers /assets/sequence/frame_NNNN.webp
+//   - 5 overlays (hero text + 3 teasers projets + transition finale) dont
+//     l'opacity / translateY / scale sont pilotés par la position du scroll
+//   - un dimmer noir qui se renforce quand un teaser est >50% visible
+//
+// Mobile (<768px) et prefers-reduced-motion : tout est rendu en stack par
+// le CSS, on bail dès l'init pour ne rien animer.
 // =============================================
-(function initCinematicSequence() {
+(function initCinematicCorridor() {
   var canvas = document.getElementById('sequence-canvas');
-  if (!canvas) return;
+  var section = document.querySelector('.cinematic-corridor');
+  if (!canvas || !section) return;
 
-  // Skip mobile : CSS cache déjà la section, on évite tout préchargement.
+  // Mobile : CSS gère le rendu en stack, JS reste en retrait.
   if (window.matchMedia('(max-width: 768px)').matches) return;
 
-  // Respect prefers-reduced-motion : on n'anime pas le scrubbing,
-  // on cache la section (250vh de scroll inutile sinon).
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var sec = canvas.closest('.cinematic-sequence');
-    if (sec) sec.style.display = 'none';
-    return;
-  }
+  // prefers-reduced-motion : idem, le CSS rend les overlays en flow normal.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var section = canvas.closest('.cinematic-sequence');
-  if (!section) return;
-
+  // ====== Canvas / frame scrubbing ======
   var ctx = canvas.getContext('2d');
   var FRAME_COUNT = 192;
   var pad = function (i) { return ('0000' + i).slice(-4); };
   var FRAME_PATH = function (i) { return 'assets/sequence/frame_' + pad(i) + '.webp'; };
 
   var images = new Array(FRAME_COUNT);
-  var currentFrame = 0;
+  var currentFrame = -1;
   var firstFrameOK = false;
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -176,24 +177,22 @@
     var rect = canvas.getBoundingClientRect();
     canvas.width = Math.round(rect.width * dpr);
     canvas.height = Math.round(rect.height * dpr);
-    // setTransform reset puis applique — pas d'accumulation à chaque resize.
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (firstFrameOK) render(currentFrame);
+    if (firstFrameOK && currentFrame >= 0) renderFrame(currentFrame);
   }
 
-  function render(frameIndex) {
-    var img = images[frameIndex];
+  function renderFrame(idx) {
+    var img = images[idx];
     if (!img || !img.complete || !img.naturalWidth) return;
     var rect = canvas.getBoundingClientRect();
     ctx.clearRect(0, 0, rect.width, rect.height);
-    // Cover : remplir tout le canvas en gardant l'aspect.
     var scale = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
     var w = img.naturalWidth * scale;
     var h = img.naturalHeight * scale;
     var x = (rect.width - w) / 2;
     var y = (rect.height - h) / 2;
     ctx.drawImage(img, x, y, w, h);
-    currentFrame = frameIndex;
+    currentFrame = idx;
   }
 
   function preloadBatch(start, end) {
@@ -204,46 +203,152 @@
         img.onload = function () {
           if (idx === 1 && !firstFrameOK) {
             firstFrameOK = true;
-            render(0);
+            renderFrame(0);
           }
         };
-        img.onerror = function () {
-          if (idx === 1) {
-            // Frame 0001 absente → la séquence n'a pas de matière, on
-            // masque la section pour ne pas créer un trou de 250vh.
-            section.style.display = 'none';
-          }
-        };
+        // pas d'auto-hide ici : si les frames manquent, le couloir reste vide
+        // mais les overlays jouent quand même (hero text + teasers visibles).
         images[idx - 1] = img;
       })(i);
     }
   }
 
-  // Throttle scroll → 1 frame par rAF.
+  // ====== Overlays ======
+  // Pour chaque overlay : on calcule un point pivot dans la fenêtre de
+  // fade-in et un autre dans la fenêtre de fade-out. Entre les deux,
+  // l'overlay est visible (--p:1). En dehors, caché (--p:0). Pas
+  // d'interpolation linéaire : le snap binaire évite l'effet "projet à
+  // moitié transparent" pendant le scroll. La transition douce est
+  // entièrement déléguée au CSS (220ms ease-out).
+  var dimmerEl = section.querySelector('.corridor-dimmer');
+  var overlays = [
+    { el: section.querySelector('[data-overlay="hero"]'),       showAt: 0,     hideAt: 0.135, isCard: false },
+    { el: section.querySelector('[data-overlay="cv"]'),         showAt: 0.24,  hideAt: 0.35,  isCard: true  },
+    { el: section.querySelector('[data-overlay="newshunter"]'), showAt: 0.46,  hideAt: 0.57,  isCard: true  },
+    { el: section.querySelector('[data-overlay="vintgen"]'),    showAt: 0.68,  hideAt: 0.79,  isCard: true  },
+    { el: section.querySelector('[data-overlay="end"]'),        showAt: 0.92,  hideAt: 1.05,  isCard: true  }
+  ].filter(function (o) { return o.el; });
+
+  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+  // État précédent par overlay → on évite d'écrire le DOM inutilement.
+  var lastState = overlays.map(function () { return { visible: null }; });
+
+  function applyOverlays(progress) {
+    var anyCardVisible = false;
+
+    for (var i = 0; i < overlays.length; i++) {
+      var ov = overlays[i];
+      var visible = (progress >= ov.showAt && progress < ov.hideAt);
+      var prev = lastState[i];
+
+      if (visible !== prev.visible) {
+        if (visible) {
+          ov.el.style.setProperty('--p', '1');
+          ov.el.style.setProperty('--y', '0px');
+          ov.el.style.setProperty('--s', '1');
+          ov.el.removeAttribute('inert');
+        } else {
+          // sens du transform selon qu'on est avant ou après la fenêtre
+          var afterWindow = progress >= ov.hideAt;
+          ov.el.style.setProperty('--p', '0');
+          ov.el.style.setProperty('--y', afterWindow ? '-40px' : '40px');
+          ov.el.style.setProperty('--s', afterWindow ? '1.02' : '0.96');
+          ov.el.setAttribute('inert', '');
+        }
+        prev.visible = visible;
+      }
+
+      if (ov.isCard && visible) anyCardVisible = true;
+    }
+
+    // Dimmer : binaire 0 ↔ 0.3. Transition CSS (220ms) gère le fondu.
+    if (dimmerEl) {
+      var targetDim = anyCardVisible ? '0.3' : '0';
+      if (dimmerEl.style.getPropertyValue('--dim') !== targetDim) {
+        dimmerEl.style.setProperty('--dim', targetDim);
+      }
+    }
+  }
+
+  // ====== Caméra : checkpoints non-linéaires (figée sur les plateaux) ======
+  // Au lieu d'avancer linéairement avec progress * FRAME_COUNT (effet "ça
+  // glisse en arrière-plan pendant qu'on lit"), la caméra se fige sur les
+  // phases d'overlay et avance entre deux projets ("marche pure"). Ça
+  // donne l'illusion d'une vraie pause narrative.
+  var FRAME_CHECKPOINTS = [
+    { p: 0.00, f: 0   },  // début hero
+    { p: 0.135, f: 0  },  // hero plateau (figé pendant la lecture)
+    { p: 0.24, f: 50  },  // marche 1 → arrivée devant CV
+    { p: 0.35, f: 50  },  // CV plateau
+    { p: 0.46, f: 95  },  // marche 2 → arrivée devant NewsHunter
+    { p: 0.57, f: 95  },  // NewsHunter plateau
+    { p: 0.68, f: 140 },  // marche 3 → arrivée devant Vintgen
+    { p: 0.79, f: 140 },  // Vintgen plateau
+    { p: 0.92, f: 191 },  // marche finale (sortie du couloir)
+    { p: 1.00, f: 191 }   // end plateau
+  ];
+
+  function getFrameIndex(progress) {
+    for (var i = 0; i < FRAME_CHECKPOINTS.length - 1; i++) {
+      var a = FRAME_CHECKPOINTS[i];
+      var b = FRAME_CHECKPOINTS[i + 1];
+      if (progress >= a.p && progress <= b.p) {
+        if (b.p === a.p) return a.f;
+        var t = (progress - a.p) / (b.p - a.p);
+        return Math.round(a.f + t * (b.f - a.f));
+      }
+    }
+    return progress < FRAME_CHECKPOINTS[0].p
+      ? FRAME_CHECKPOINTS[0].f
+      : FRAME_CHECKPOINTS[FRAME_CHECKPOINTS.length - 1].f;
+  }
+
+  // ====== Scroll loop : un seul rAF pour canvas + overlays ======
   var rafScheduled = false;
+  var lastProgress = -1;
+
   function onScroll() {
     if (rafScheduled) return;
     rafScheduled = true;
     requestAnimationFrame(function () {
       rafScheduled = false;
-      if (!firstFrameOK) return;
+
       var rect = section.getBoundingClientRect();
       var total = section.offsetHeight - window.innerHeight;
       if (total <= 0) return;
-      var scrolled = -rect.top;
-      var progress = Math.min(1, Math.max(0, scrolled / total));
-      var frameIndex = Math.min(FRAME_COUNT - 1, Math.floor(progress * FRAME_COUNT));
-      if (frameIndex !== currentFrame) render(frameIndex);
+      var progress = clamp01(-rect.top / total);
+
+      if (progress === lastProgress) return;
+      lastProgress = progress;
+
+      // Frame canvas (mapping non-linéaire — voir FRAME_CHECKPOINTS)
+      if (firstFrameOK) {
+        var idx = Math.min(FRAME_COUNT - 1, getFrameIndex(progress));
+        if (idx !== currentFrame) renderFrame(idx);
+      }
+
+      // Overlays + dimmer
+      applyOverlays(progress);
     });
   }
 
+  // ====== Init ======
   resizeCanvas();
   preloadBatch(1, 30);
+  // état initial des overlays (avant tout scroll)
+  applyOverlays(0);
 
   window.addEventListener('load', function () {
     preloadBatch(31, FRAME_COUNT);
   });
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', function () {
+    resizeCanvas();
+    // forcer un recalcul d'overlay au resize (les fenêtres de progress
+    // dépendent de section.offsetHeight qui peut bouger en responsive)
+    lastProgress = -1;
+    onScroll();
+  });
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 

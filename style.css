@@ -640,34 +640,224 @@ dd {
 
 
 /* ----------------------------------------------------------
-   7-bis. CINEMATIC SEQUENCE (scroll-scrubbed canvas)
-   La section s'auto-cache si la frame 0001 est 404 (cf. script.js).
+   7-bis. CINEMATIC CORRIDOR (was cinematic-sequence)
+   ----------------------------------------------------------
+   - Section 600vh : pin canvas 100vh + 5 overlays scroll-driven.
+   - Tous les overlays consomment 3 CSS vars (--p, --y, --s) pilotées
+     par script.js depuis la position du scroll. Pas de transition CSS
+     entre les phases : c'est la position du scroll qui interpole.
+   - Mobile (<768px) : la section devient un stacking classique,
+     canvas / dimmer / teasers / transition cachés, hero en section
+     normale en haut de page.
+   - prefers-reduced-motion : même traitement que mobile.
    ---------------------------------------------------------- */
-.cinematic-sequence {
-  height: 250vh;
+.cinematic-corridor {
+  height: 600vh;
   position: relative;
   background: var(--bg);
 }
 
-.sequence-pin {
+.corridor-pin {
   position: sticky;
   top: 0;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
 #sequence-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
+  /* Vignette douce — la lumière "tombe" naturellement aux bords, et ça
+     masque toute trace résiduelle si la crop ffmpeg n'a pas tout nettoyé. */
+  mask-image: radial-gradient(ellipse 100% 100% at center, black 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, black 70%, transparent 100%);
 }
 
+/* Dimmer noir entre canvas et overlays. JS pilote --dim 0 ↔ 0.3 en
+   binaire, la transition CSS gère le fondu (en sync avec les overlays). */
+.corridor-dimmer {
+  position: absolute;
+  inset: 0;
+  background: black;
+  opacity: var(--dim, 0);
+  pointer-events: none;
+  transition: opacity 220ms var(--ease);
+}
+
+/* Wrapper d'overlay : centré, plein écran. opacity / transform pilotés
+   par CSS vars que JS met à jour ; le JS bascule binaire 0 ↔ 1 et la
+   transition CSS rapide (220ms) gère le snap doux pour qu'aucun overlay
+   ne soit jamais visible "à moitié transparent" pendant le scroll. */
+.corridor-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--gutter);
+  pointer-events: none;
+  /* defaults pour les overlays "card" et "end" : cachés en bas */
+  opacity: var(--p, 0);
+  transform: translateY(var(--y, 40px)) scale(var(--s, 0.96));
+  transition: opacity 220ms var(--ease),
+              transform 280ms var(--ease);
+  will-change: opacity, transform;
+}
+
+/* L'overlay hero démarre visible (--p:1) si JS off / pas encore appliqué */
+.corridor-overlay--hero {
+  opacity: var(--p, 1);
+  transform: translateY(var(--y, 0)) scale(var(--s, 1));
+}
+
+/* Le contenu interne récupère les pointer-events (le wrapper les bloque) */
+.corridor-overlay__inner,
+.teaser-card {
+  pointer-events: auto;
+}
+
+/* L'overlay hero garde la grammaire hero existante mais sans grid 2-col */
+.corridor-overlay--hero .hero__main {
+  width: 100%;
+  max-width: 720px;
+  min-width: 0;
+}
+
+
+/* ===== Teaser card (variante A : solide) =====
+   Centrée, max 560px, fond bg-elevated semi-transparent, border + ombre. */
+.teaser-card {
+  width: 100%;
+  max-width: 560px;
+  padding: 32px;
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.teaser-card__index {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+
+.teaser-card__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.teaser-card__desc {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fg-muted);
+}
+
+.teaser-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+}
+
+.teaser-card__tags li {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--fg-muted);
+}
+
+.teaser-card__cta {
+  align-self: flex-start;
+  margin-top: var(--space-3);
+}
+
+/* CTA "Continuer ↓" — la flèche descend au hover */
+.teaser-card__cta--down i {
+  transition: transform var(--t-fast) var(--ease);
+}
+.teaser-card__cta--down:hover i,
+.teaser-card__cta--down:focus-visible i {
+  transform: translateY(3px);
+}
+
+
+/* ===== Mobile : on déconstruit le pin et on rend les overlays en stack ===== */
 @media (max-width: 768px) {
-  .cinematic-sequence {
+  .cinematic-corridor {
+    height: auto;
+  }
+  .corridor-pin {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+  #sequence-canvas,
+  .corridor-dimmer,
+  .corridor-overlay--card,
+  .corridor-overlay--end {
     display: none;
+  }
+  .corridor-overlay--hero {
+    position: static;
+    inset: auto;
+    padding: calc(var(--nav-h) + var(--space-16)) var(--gutter) var(--space-16);
+    opacity: 1;
+    transform: none;
+  }
+  .corridor-overlay--hero .hero__main {
+    max-width: 100%;
+  }
+}
+
+
+/* ===== prefers-reduced-motion : même traitement, tout empilé ===== */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-corridor {
+    height: auto;
+  }
+  .corridor-pin {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+  #sequence-canvas,
+  .corridor-dimmer {
+    display: none;
+  }
+  .corridor-overlay {
+    position: static;
+    inset: auto;
+    padding: var(--space-12) var(--gutter);
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .corridor-overlay--hero {
+    padding-top: calc(var(--nav-h) + var(--space-16));
+  }
+  .teaser-card {
+    background: var(--bg-elevated);
   }
 }
 
