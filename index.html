@@ -364,6 +364,69 @@
                         </button>
                     </li>
 
+                    <!-- Projet 05 — Bot Crypto -->
+                    <li class="project" id="projet-botcrypto">
+                        <button class="project__card" type="button" data-open-dialog="dialog-botcrypto"
+                            aria-label="Voir le détail de Bot Crypto">
+                            <div class="project__media project__media--missing">
+                                <span class="project__media-icon" aria-hidden="true">
+                                    <i class="ph ph-currency-btc"></i>
+                                </span>
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 05</p>
+                                <h3 class="project__title">Bot Crypto</h3>
+                                <p class="project__desc">
+                                    Bot de trading crypto automatisé en Python. Stratégie basée sur indicateurs
+                                    techniques, backtesting sur données historiques avant passage en live.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>python</li>
+                                    <li>ccxt</li>
+                                    <li>pandas</li>
+                                    <li>ta-lib</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-arrow-square-out" aria-hidden="true"></i>
+                                    <span class="project__action-label">voir le détail</span>
+                                    <i class="ph ph-arrow-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </button>
+                    </li>
+
+                    <!-- Projet 06 — CrewAI Recherches -->
+                    <li class="project" id="projet-crewai">
+                        <button class="project__card" type="button" data-open-dialog="dialog-crewai"
+                            aria-label="Voir le détail de CrewAI Recherches">
+                            <div class="project__media project__media--missing">
+                                <span class="project__media-icon" aria-hidden="true">
+                                    <i class="ph ph-users-three"></i>
+                                </span>
+                            </div>
+                            <div class="project__body">
+                                <p class="project__index" aria-hidden="true">/ 06</p>
+                                <h3 class="project__title">CrewAI — Recherches</h3>
+                                <p class="project__desc">
+                                    Exploration de CrewAI, framework Python d'orchestration d'agents IA
+                                    multi-rôles. Workflow de recherche / analyse automatisé avec plusieurs
+                                    agents collaboratifs.
+                                </p>
+                                <ul class="project__stack" role="list" aria-label="Stack technique">
+                                    <li>python</li>
+                                    <li>crewai</li>
+                                    <li>ia agentique</li>
+                                    <li>multi-agents</li>
+                                </ul>
+                                <span class="project__action">
+                                    <i class="ph ph-arrow-square-out" aria-hidden="true"></i>
+                                    <span class="project__action-label">voir le détail</span>
+                                    <i class="ph ph-arrow-right project__action-arrow" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </button>
+                    </li>
+
                 </ul>
             </div>
         </section>
@@ -1213,6 +1276,166 @@
                     <span>Voir le code sur GitHub</span>
                     <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
                 </a>
+                <button class="btn btn--ghost" type="button" data-close-dialog>Fermer</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Dialog 05 — Bot Crypto -->
+    <dialog class="project-dialog" id="dialog-botcrypto" aria-labelledby="dialog-botcrypto-title">
+        <div class="project-dialog__inner">
+            <header class="project-dialog__head">
+                <div>
+                    <p class="project-dialog__index">/ 05 — projet personnel</p>
+                    <h2 id="dialog-botcrypto-title" class="project-dialog__title">Bot Crypto</h2>
+                </div>
+                <button class="project-dialog__close" type="button" data-close-dialog aria-label="Fermer la fenêtre">
+                    <i class="ph ph-x" aria-hidden="true"></i>
+                </button>
+            </header>
+            <div class="project-dialog__body" data-lenis-prevent>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// contexte</p>
+                    <p>
+                        Projet personnel pour creuser deux sujets en même temps : la <strong>finance
+                        algorithmique</strong> (lecture de marché, indicateurs techniques, gestion du risque)
+                        et l'<strong>intégration d'API tierces</strong> (exchange crypto, websockets,
+                        rate limits). Le trading n'est qu'un prétexte — l'objectif réel est de structurer
+                        proprement un service Python qui tourne en boucle sans planter.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// ce que ça fait</p>
+                    <p>
+                        Bot autonome qui se connecte à un exchange crypto, lit le carnet d'ordres et l'historique
+                        des prix, calcule des indicateurs techniques (moyennes mobiles, RSI), prend une décision
+                        d'achat / vente / hold, puis place l'ordre. Mode <strong>backtesting</strong> sur données
+                        historiques pour valider une stratégie avant de la passer en live.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// stack &amp; choix</p>
+                    <ul class="project-dialog__list">
+                        <li><strong>Python</strong> — l'écosystème de référence pour la finance quantitative
+                            (pandas, numpy, ta-lib).</li>
+                        <li><strong>ccxt</strong> — librairie unifiée pour les API d'exchanges crypto, évite
+                            de réécrire un client par exchange.</li>
+                        <li><strong>pandas</strong> pour la manipulation des séries de prix, <strong>ta-lib</strong>
+                            pour les indicateurs techniques pré-calculés.</li>
+                    </ul>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// difficulté principale</p>
+                    <p>
+                        Gérer la <strong>robustesse en boucle infinie</strong> : un bot qui plante au bout
+                        de 6 h parce qu'une réponse API a un format inattendu, c'est une perte sèche. Mise en
+                        place de retry avec backoff exponentiel, validation systématique des réponses, logs
+                        horodatés pour debug à froid.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// statut</p>
+                    <p>
+                        Code en ligne sur GitHub. Reste en <strong>paper trading</strong> (simulation, pas
+                        d'argent réel) — projet d'apprentissage, pas de mise en prod live.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// compétences slam mobilisées</p>
+                    <ul class="project-dialog__list">
+                        <li>Concevoir et développer une solution applicative</li>
+                        <li>Intégrer des services tiers (API REST + websockets)</li>
+                        <li>Gérer les données (séries temporelles, persistance des trades)</li>
+                        <li>Sécuriser (clés API en variables d'environnement, jamais en clair)</li>
+                    </ul>
+                </section>
+            </div>
+            <footer class="project-dialog__footer">
+                <a class="btn btn--primary" href="https://github.com/amory-danvy/Bot_crypto" target="_blank"
+                    rel="noopener noreferrer">
+                    <i class="ph ph-github-logo" aria-hidden="true"></i>
+                    <span>Voir le code sur GitHub</span>
+                    <i class="ph ph-arrow-up-right" aria-hidden="true"></i>
+                </a>
+                <button class="btn btn--ghost" type="button" data-close-dialog>Fermer</button>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Dialog 06 — CrewAI Recherches -->
+    <dialog class="project-dialog" id="dialog-crewai" aria-labelledby="dialog-crewai-title">
+        <div class="project-dialog__inner">
+            <header class="project-dialog__head">
+                <div>
+                    <p class="project-dialog__index">/ 06 — projet personnel · code privé</p>
+                    <h2 id="dialog-crewai-title" class="project-dialog__title">CrewAI — Recherches</h2>
+                </div>
+                <button class="project-dialog__close" type="button" data-close-dialog aria-label="Fermer la fenêtre">
+                    <i class="ph ph-x" aria-hidden="true"></i>
+                </button>
+            </header>
+            <div class="project-dialog__body" data-lenis-prevent>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// contexte</p>
+                    <p>
+                        Projet d'exploration personnelle autour de <strong>CrewAI</strong>, un framework Python
+                        qui permet d'orchestrer plusieurs agents IA spécialisés (chacun avec son rôle, son
+                        prompt, ses outils) qui collaborent sur une tâche complexe. Aligné directement avec
+                        ma spécialisation en <strong>IA agentique</strong> chez Siccardi Tech Leads.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// ce que ça fait</p>
+                    <p>
+                        Workflow de recherche automatisé : un agent <em>chercheur</em> qui explore un sujet
+                        via web search, un agent <em>analyste</em> qui synthétise les sources, un agent
+                        <em>rédacteur</em> qui formate le rapport final. Chaque agent a son propre prompt
+                        système et accès à des outils différents (fetch web, LLM call, etc.).
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// stack &amp; choix</p>
+                    <ul class="project-dialog__list">
+                        <li><strong>Python</strong> + <strong>CrewAI</strong> — framework de référence pour
+                            les workflows multi-agents, plus structuré qu'un simple chain LangChain.</li>
+                        <li><strong>OpenAI / Anthropic API</strong> côté LLM (selon les besoins par rôle).</li>
+                        <li><strong>Outils web search</strong> intégrés à CrewAI (Serper / Brave) pour donner
+                            aux agents un accès à de la donnée fraîche.</li>
+                    </ul>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// difficulté principale</p>
+                    <p>
+                        <strong>Calibrer la division des tâches</strong> entre agents. Un workflow trop
+                        granulaire (5 agents pour un truc qu'un seul peut faire) consomme trop de tokens
+                        et ralentit ; trop monolithique (1 agent qui fait tout), on perd l'intérêt du
+                        framework. Beaucoup d'itérations sur la décomposition des rôles avant de trouver
+                        un équilibre utile.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// statut</p>
+                    <p>
+                        <strong>Code privé</strong> — projet d'exploration personnelle, pas destiné à être
+                        publié en l'état. Apporte directement à mon alternance : je pousse les patterns qui
+                        marchent dans des projets clients chez Siccardi Tech Leads.
+                    </p>
+                </section>
+                <section class="project-dialog__section">
+                    <p class="project-dialog__section-label">// compétences slam mobilisées</p>
+                    <ul class="project-dialog__list">
+                        <li>Concevoir et développer une solution applicative (workflow orchestré)</li>
+                        <li>Intégrer des services tiers (API LLM, API search)</li>
+                        <li>Sécuriser (clés API isolées en .env, pas exposées au client)</li>
+                        <li>Travailler en mode projet (itération, mesure, ajustement)</li>
+                    </ul>
+                </section>
+            </div>
+            <footer class="project-dialog__footer">
+                <span class="btn btn--ghost" aria-disabled="true">
+                    <i class="ph ph-lock-key" aria-hidden="true"></i>
+                    <span>Code privé</span>
+                </span>
                 <button class="btn btn--ghost" type="button" data-close-dialog>Fermer</button>
             </footer>
         </div>
