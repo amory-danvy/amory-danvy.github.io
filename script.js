@@ -221,12 +221,15 @@
   // moitié transparent" pendant le scroll. La transition douce est
   // entièrement déléguée au CSS (220ms ease-out).
   var dimmerEl = section.querySelector('.corridor-dimmer');
+  // 6 overlays = hero + 4 projets (CV / Patrimonia / NewsHunter / Vintgen) + end
+  // Distribution : hero 13%, 4 plateaux × 10% = 40%, end 8%, marches = 39% / 5 = 7.8%
   var overlays = [
-    { el: section.querySelector('[data-overlay="hero"]'),       showAt: 0,     hideAt: 0.135, isCard: false },
-    { el: section.querySelector('[data-overlay="cv"]'),         showAt: 0.24,  hideAt: 0.35,  isCard: true  },
-    { el: section.querySelector('[data-overlay="newshunter"]'), showAt: 0.46,  hideAt: 0.57,  isCard: true  },
-    { el: section.querySelector('[data-overlay="vintgen"]'),    showAt: 0.68,  hideAt: 0.79,  isCard: true  },
-    { el: section.querySelector('[data-overlay="end"]'),        showAt: 0.92,  hideAt: 1.05,  isCard: true  }
+    { el: section.querySelector('[data-overlay="hero"]'),       showAt: 0,    hideAt: 0.13, isCard: false },
+    { el: section.querySelector('[data-overlay="cv"]'),         showAt: 0.21, hideAt: 0.31, isCard: true  },
+    { el: section.querySelector('[data-overlay="patrimonia"]'), showAt: 0.39, hideAt: 0.49, isCard: true  },
+    { el: section.querySelector('[data-overlay="newshunter"]'), showAt: 0.57, hideAt: 0.67, isCard: true  },
+    { el: section.querySelector('[data-overlay="vintgen"]'),    showAt: 0.75, hideAt: 0.85, isCard: true  },
+    { el: section.querySelector('[data-overlay="end"]'),        showAt: 0.92, hideAt: 1.05, isCard: true  }
   ].filter(function (o) { return o.el; });
 
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -276,15 +279,19 @@
   // glisse en arrière-plan pendant qu'on lit"), la caméra se fige sur les
   // phases d'overlay et avance entre deux projets ("marche pure"). Ça
   // donne l'illusion d'une vraie pause narrative.
+  // 5 plateaux + 5 marches : 192 frames divisées en 5 segments de marche
+  // (~38 frames par marche) sur 39% du scroll total.
   var FRAME_CHECKPOINTS = [
     { p: 0.00, f: 0   },  // début hero
-    { p: 0.135, f: 0  },  // hero plateau (figé pendant la lecture)
-    { p: 0.24, f: 50  },  // marche 1 → arrivée devant CV
-    { p: 0.35, f: 50  },  // CV plateau
-    { p: 0.46, f: 95  },  // marche 2 → arrivée devant NewsHunter
-    { p: 0.57, f: 95  },  // NewsHunter plateau
-    { p: 0.68, f: 140 },  // marche 3 → arrivée devant Vintgen
-    { p: 0.79, f: 140 },  // Vintgen plateau
+    { p: 0.13, f: 0   },  // hero plateau end
+    { p: 0.21, f: 38  },  // marche 1 → arrivée devant CV
+    { p: 0.31, f: 38  },  // CV plateau
+    { p: 0.39, f: 76  },  // marche 2 → arrivée devant Patrimonia
+    { p: 0.49, f: 76  },  // Patrimonia plateau
+    { p: 0.57, f: 114 },  // marche 3 → arrivée devant NewsHunter
+    { p: 0.67, f: 114 },  // NewsHunter plateau
+    { p: 0.75, f: 152 },  // marche 4 → arrivée devant Vintgen
+    { p: 0.85, f: 152 },  // Vintgen plateau
     { p: 0.92, f: 191 },  // marche finale (sortie du couloir)
     { p: 1.00, f: 191 }   // end plateau
   ];
