@@ -420,3 +420,125 @@
     dialog.addEventListener('close', resumeLenis);
   });
 })();
+
+
+// =============================================
+// Lightbox (galeries de captures)
+// ----------------------------------------------------------------
+// Un seul <dialog id="lightbox"> réutilisé pour toutes les galeries.
+// Au clic sur un .gallery__thumb, on récupère la liste d'images du
+// même <ul class="gallery"> (groupement par parent), on stocke
+// l'index courant et on affiche. Esc / clic backdrop / ←/→ pour
+// fermer/naviguer.
+// =============================================
+(function initLightbox() {
+  var lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+
+  var imgEl = lightbox.querySelector('.lightbox__img');
+  var counterEl = lightbox.querySelector('.lightbox__counter');
+  var prevBtn = lightbox.querySelector('[data-lightbox-prev]');
+  var nextBtn = lightbox.querySelector('[data-lightbox-next]');
+  var closeBtn = lightbox.querySelector('[data-lightbox-close]');
+
+  var currentItems = []; // Array<{ src, alt }>
+  var currentIndex = 0;
+
+  function pauseLenis() {
+    if (window.__lenis && typeof window.__lenis.stop === 'function') {
+      window.__lenis.stop();
+    }
+  }
+  function resumeLenis() {
+    if (window.__lenis && typeof window.__lenis.start === 'function') {
+      window.__lenis.start();
+    }
+  }
+
+  function render() {
+    if (!currentItems.length) return;
+    var item = currentItems[currentIndex];
+    imgEl.src = item.src;
+    imgEl.alt = item.alt || '';
+    if (currentItems.length > 1) {
+      counterEl.textContent = (currentIndex + 1) + ' / ' + currentItems.length;
+      counterEl.hidden = false;
+      prevBtn.hidden = false;
+      nextBtn.hidden = false;
+    } else {
+      counterEl.hidden = true;
+      prevBtn.hidden = true;
+      nextBtn.hidden = true;
+    }
+  }
+
+  function open(items, index) {
+    currentItems = items;
+    currentIndex = index;
+    render();
+    if (typeof lightbox.showModal === 'function') {
+      lightbox.showModal();
+    } else {
+      lightbox.setAttribute('open', '');
+    }
+    pauseLenis();
+  }
+
+  function close() {
+    if (typeof lightbox.close === 'function') {
+      lightbox.close();
+    } else {
+      lightbox.removeAttribute('open');
+    }
+  }
+
+  function next() {
+    if (!currentItems.length) return;
+    currentIndex = (currentIndex + 1) % currentItems.length;
+    render();
+  }
+
+  function prev() {
+    if (!currentItems.length) return;
+    currentIndex = (currentIndex - 1 + currentItems.length) % currentItems.length;
+    render();
+  }
+
+  // Click sur un thumb : on regroupe par <ul class="gallery"> parent
+  document.querySelectorAll('[data-lightbox-trigger]').forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var ul = trigger.closest('.gallery');
+      if (!ul) return;
+      var thumbs = Array.prototype.slice.call(ul.querySelectorAll('[data-lightbox-trigger]'));
+      var items = thumbs.map(function (t) {
+        var img = t.querySelector('img');
+        return img ? { src: img.getAttribute('src'), alt: img.getAttribute('alt') || '' } : null;
+      }).filter(Boolean);
+      var index = thumbs.indexOf(trigger);
+      open(items, index < 0 ? 0 : index);
+    });
+  });
+
+  // Boutons internes
+  closeBtn.addEventListener('click', close);
+  nextBtn.addEventListener('click', next);
+  prevBtn.addEventListener('click', prev);
+
+  // Clic sur le backdrop (le <dialog> lui-même, pas l'image ni les contrôles)
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) close();
+  });
+
+  // ←/→ pour naviguer (Esc géré nativement par <dialog>)
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.open) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  });
+
+  // Native 'close' : reset l'image (évite un flash en cas de réouverture)
+  lightbox.addEventListener('close', function () {
+    imgEl.src = '';
+    resumeLenis();
+  });
+})();
