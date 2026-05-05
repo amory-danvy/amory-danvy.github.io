@@ -2421,3 +2421,17 @@ button.project__card {
   border: 1px solid var(--border);
   color: var(--fg);
 }
+
+.method__link {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--t-fast) var(--ease);
+}
+
+.method__link:hover,
+.method__link:focus-visible {
+  text-decoration-color: var(--primary);
+  outline: none;
+}
