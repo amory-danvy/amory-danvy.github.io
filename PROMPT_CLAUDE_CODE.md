@@ -88,6 +88,7 @@ Règles d'usage des visuels :
 
 SECTIONS (ordre d'affichage)
 1. Hero — nom en JetBrains Mono XL (>120px desktop) avec curseur `_` clignotant, tagline, description, 2 CTAs (Projets + Contact). Pas de blob flou. Pas de dégradé. Pas de photo.
+1.5. Séquence cinématique scroll-scrubbed (canvas + frames WebP) entre Hero et Projets — section pinned 100vh, hauteur réelle 250vh, skip mobile. Spec technique complète + code JS de référence dans refs/ANIMATIONS.md (LIRE OBLIGATOIREMENT).
 2. Projets — 3 projets : Générateur CV, NewsHunter, VintedBoost (cf. BRIEF.md pour les détails et liens GitHub)
 3. À propos — texte actuel + photo_amory.png color-gradée + badges (Rambouillet, Recherche Alternance)
 4. Parcours — timeline : Siccardi Tech Leads → BTS SIO SLAM → Bac

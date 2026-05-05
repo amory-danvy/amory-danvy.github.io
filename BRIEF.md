@@ -115,6 +115,7 @@
 Tout le contenu actuel est à conserver — on **réordonne** pour montrer le travail tôt.
 
 1. **Hero** — Nom (typo XL JetBrains Mono Display, possibilité de jouer avec le mono et un curseur clignotant `_` à la fin). Tagline : "Développeur en alternance, spécialisé IA agentique." Description (3 phrases). 2 CTAs : primaire vers Projets, secondaire vers Contact. **Pas de blob flou. Pas de dégradé. Pas de photo en hero.**
+1.5. **Séquence cinématique scroll-scrubbed** — entre Hero et Projets, section pinned 100vh / hauteur réelle 250vh, frames dans `/assets/sequence/`. Voir `refs/ANIMATIONS.md` pour la spec technique complète. Skippée sur mobile.
 2. **Projets** — En premier après le hero. Les 3 projets actuels :
    - Générateur de CV Dynamique (Python, HTML, CSS) — [GitHub](https://github.com/amory-danvy/Projet1_bts)
    - NewsHunter — Tweet Fetcher (Python, Tweepy, Automation) — [GitHub](https://github.com/amory-danvy/newshunter_twitter/tree/main/NewsHunter2)
