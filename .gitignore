@@ -17,3 +17,6 @@ Thumbs.db
 source.mp4
 *.mov
 *.mkv
+
+# Sources brutes des screenshots (déjà copiés, renommés et compressés dans assets/screenshots/)
+project pictures/
